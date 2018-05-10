@@ -1,9 +1,9 @@
-package com.tangly.shiro.web;//package com.tlyong1992.config.shiro.web;
+package com.tangly.shiro.web;//package com.tangly.config.shiro.web;
 //
-//import com.tlyong1992.domain.SysPermission;
-//import com.tlyong1992.domain.SysRole;
-//import com.tlyong1992.domain.UserAuth;
-//import com.tlyong1992.service.UserAuthService;
+//import com.tangly.entity.SysPermission;
+//import com.tangly.entity.SysRole;
+//import com.tangly.entity.UserAuth;
+//import com.tangly.service.UserAuthService;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.shiro.SecurityUtils;
 //import org.apache.shiro.authc.*;

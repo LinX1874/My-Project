@@ -1,4 +1,4 @@
-package com.tangly.shiro.web;//package com.tlyong1992.config.shiro.web;
+package com.tangly.shiro.web;//package com.tangly.config.shiro.web;
 //
 //import java.io.Serializable;
 //import java.util.Date;

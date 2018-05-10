@@ -1,8 +1,8 @@
-package com.tangly.shiro.web;//package com.tlyong1992.config.shiro.web;
+package com.tangly.shiro.web;//package com.tangly.config.shiro.web;
 //
-//import com.tlyong1992.config.cache.ShiroRedisCacheManager;
-//import com.tlyong1992.config.shiro.jwt.JWTFilter;
-//import com.tlyong1992.config.shiro.web.RetryLimitHashedCredentialsMatcher;
+//import com.tangly.config.cache.ShiroRedisCacheManager;
+//import com.tangly.config.shiro.jwt.JWTFilter;
+//import com.tangly.config.shiro.web.RetryLimitHashedCredentialsMatcher;
 //import lombok.extern.slf4j.Slf4j;
 //import org.apache.shiro.mgt.SecurityManager;
 //import org.apache.shiro.spring.LifecycleBeanPostProcessor;

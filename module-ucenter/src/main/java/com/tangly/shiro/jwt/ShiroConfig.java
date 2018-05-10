@@ -16,6 +16,9 @@ import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author tangly
+ */
 @Configuration
 @Slf4j
 public class ShiroConfig {

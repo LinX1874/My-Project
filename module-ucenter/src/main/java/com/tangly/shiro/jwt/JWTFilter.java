@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author tangly
+ */
 @Slf4j
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 

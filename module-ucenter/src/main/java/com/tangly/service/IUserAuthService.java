@@ -1,6 +1,7 @@
 package com.tangly.service;
 
 
+import com.tangly.base.IBaseInterface;
 import com.tangly.entity.UserAuth;
 
 /**
@@ -9,7 +10,7 @@ import com.tangly.entity.UserAuth;
  * @author tangly
  * @since JDK 1.7
  */
-public interface IUserAuthService {
+public interface IUserAuthService extends IBaseInterface<UserAuth>{
 
     /**
      * 根据用户登录账号取账号登录实体

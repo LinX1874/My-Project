@@ -1,7 +1,7 @@
-package com.tangly.shiro.web;//package com.tlyong1992.config.shiro.web;
+package com.tangly.shiro.web;//package com.tangly.config.shiro.web;
 //
-//import com.tlyong1992.config.cache.ShiroRedisCacheManager;
-//import com.tlyong1992.util.TimeUtil;
+//import com.tangly.config.cache.ShiroRedisCacheManager;
+//import com.tangly.util.TimeUtil;
 //import org.apache.shiro.authc.AuthenticationInfo;
 //import org.apache.shiro.authc.AuthenticationToken;
 //import org.apache.shiro.authc.ExcessiveAttemptsException;

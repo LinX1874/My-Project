@@ -1,4 +1,4 @@
-package com.tangly.mvc;
+package com.tangly.config.mvc;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
+/**
+ * @author tangly
+ */
 @EnableWebMvc
 @Configuration
 @EnableSwagger2

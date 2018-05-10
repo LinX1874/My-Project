@@ -1,5 +1,7 @@
 package com.tangly;
 
+import com.tangly.base.BaseMybatisMapper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,8 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since JDK 1.7
  */
 @SpringBootApplication
-public class CommonWebAppliacation {
+@MapperScan(basePackages = "com.tangly.mapper", markerInterface = BaseMybatisMapper.class)
+public class CommonWebApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CommonWebAppliacation.class, args);
+        SpringApplication.run(CommonWebApplication.class, args);
     }
 }
