@@ -49,7 +49,7 @@ mybatis:
     aggressive-lazy-loading: true
 
 mapper:
-  mappers: com.tangly.base.BaseMapper #mappers 多个接口时逗号隔开
+  mappers: com.tangly.base.BaseMybatisMapper #mappers 多个接口时逗号隔开
   not-empty: false
   identity: MYSQL
 

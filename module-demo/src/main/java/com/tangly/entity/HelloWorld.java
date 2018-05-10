@@ -25,6 +25,7 @@ public class HelloWorld {
     @Size(min = 2, max = 14 , message = "名字长度限制为2-14")
     private String name;
 
+    @ApiModelProperty(value = "手机号")
     @Pattern(regexp="\\d{11}" , message = "手机号格式不正确")
     private String phoneNum;
 

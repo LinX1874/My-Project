@@ -1,6 +1,7 @@
 package com.tangly.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.tangly.bean.PageRequest;
 import com.tangly.bean.ResponseBean;
 import com.tangly.entity.HelloWorld;
 import com.tangly.entity.UserAuth;
@@ -46,36 +47,48 @@ public class HelloWorldController {
     @ApiOperation(value = "获取HelloWorld列表", notes = "获取列表")
     @GetMapping(value = {""})
     public ResponseBean getAllHelloWorldList() {
-        List<HelloWorld> r = iHelloWorldService.getHelloWorldList();
+        List<HelloWorld> r = iHelloWorldService.selectAll();
         return new ResponseBean(HttpStatus.OK.value(), "成功", r);
 
     }
 
     @ApiOperation(value = "分页获取获取HelloWorld列表", notes = "备注内容：记得传参数")
-    @GetMapping(value = {"/page"})
-    public ResponseBean geHelloWorldPage(
-            @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "1") Integer pageSize) {
-        PageInfo<HelloWorld> pageInfo = iHelloWorldService.queryPage(pageNo, pageSize);
+    @PostMapping(value = {"/page"})
+    public ResponseBean geHelloWorldPage(@RequestBody PageRequest pageRequest) {
+
+        PageInfo<HelloWorld> pageInfo = iHelloWorldService.selectByPage(new PageRequest(HelloWorld.class,pageRequest));
         return new ResponseBean(HttpStatus.OK.value(), "成功", pageInfo);
     }
 
     @ApiOperation(value = "创建HelloWorld", notes = "根据HelloWorld对象创建HelloWorld")
-    @ApiImplicitParam(name = "helloWorld", value = "HelloWorld详细实体，id字段不用传", required = true, dataType = "HelloWorld")
+    @ApiImplicitParam(name = "helloWorld", value = "id字段由服务端生成，前端不用传", required = true, dataType = "HelloWorld")
     @PostMapping(value = "")
     public ResponseBean postHelloWorld(@RequestBody HelloWorld helloWorld) {
         ValidateUtil.validate(helloWorld);
-        iHelloWorldService.save(helloWorld);
+        helloWorld.setId(null);
+        iHelloWorldService.insert(helloWorld);
         return new ResponseBean(HttpStatus.CREATED.value(), "成功", helloWorld);
     }
 
-    @ApiOperation(value = "更新HelloWorld详细信息", notes = "根据url的id来指定更新对象，并根据传过来的helloWorld信息来更新HelloWorld详细信息")
+    @ApiOperation(value = "更新HelloWorld详细信息", notes = "根据传过来的helloWorld信息来更新HelloWorld详细信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "helloWorld", value = "HelloWorld详细实体helloWorld", required = true, dataType = "HelloWorld")
     })
     @PutMapping()
     public ResponseBean putHelloWorld(@RequestBody HelloWorld helloWorld) {
-        iHelloWorldService.updateAll(helloWorld);
+        ValidateUtil.validate(helloWorld);
+        iHelloWorldService.updateByPrimaryKey(helloWorld);
+        return new ResponseBean(HttpStatus.OK.value(), "成功", null);
+    }
+
+    @ApiOperation(value = "更新部分HelloWorld详细信息", notes = "根据传过来的helloWorld信息非空字段来更新HelloWorld详细信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "helloWorld", value = "HelloWorld详细实体helloWorld", required = true, dataType = "HelloWorld")
+    })
+    @PatchMapping()
+    public ResponseBean patchHelloWorld(@RequestBody HelloWorld helloWorld) {
+        ValidateUtil.validate(helloWorld);
+        iHelloWorldService.updateByPrimaryKeySelective(helloWorld);
         return new ResponseBean(HttpStatus.OK.value(), "成功", null);
     }
 
@@ -83,7 +96,7 @@ public class HelloWorldController {
     @ApiImplicitParam(paramType = "path", name = "id", dataType = "Integer")
     @GetMapping(value = "/{id}")
     public ResponseBean getHelloWorld(@PathVariable("id") Integer id) {
-        HelloWorld helloWorld = iHelloWorldService.getById(id);
+        HelloWorld helloWorld = iHelloWorldService.selectByPrimaryKey(id);
         return new ResponseBean(HttpStatus.OK.value(), "成功", helloWorld);
     }
 
@@ -91,7 +104,7 @@ public class HelloWorldController {
     @ApiImplicitParam(paramType = "path", name = "id", dataType = "Integer")
     @DeleteMapping(value = "/{id}")
     public ResponseBean deleteHelloWorld(@PathVariable("id") Integer id) {
-        iHelloWorldService.delete(id);
+        iHelloWorldService.deleteByPrimaryKey(id);
         return new ResponseBean(HttpStatus.OK.value(), "成功", null);
     }
     //END----------------------------增删改查CRUD+PAGE-----------------------------------

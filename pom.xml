@@ -26,6 +26,7 @@
         <module>common-parent</module>
         <module>common-web</module>
         <module>module-demo</module>
+        <module>module-ucenter</module>
     </modules>
 
 </project>
