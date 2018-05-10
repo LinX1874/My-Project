@@ -17,39 +17,14 @@
         <relativePath/>
     </parent>
 
-    <properties>
-        <tk-mybatis-spring.version>1.1.5</tk-mybatis-spring.version>
-    </properties>
 
     <dependencies>
 
         <dependency>
-            <groupId>com.tangly</groupId>
-            <artifactId>common-config</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-        <!--减少开发配置;在 IntelliJ IDEA 要安装lombok插件配套使用-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!--Base64-->
         <dependency>
             <groupId>commons-codec</groupId>

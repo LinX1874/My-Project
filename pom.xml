@@ -25,6 +25,7 @@
         <module>module-admin</module>
         <module>common-parent</module>
         <module>common-web</module>
+        <module>module-demo</module>
     </modules>
 
 </project>
