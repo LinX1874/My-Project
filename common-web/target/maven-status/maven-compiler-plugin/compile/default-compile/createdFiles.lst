@@ -1,0 +1,7 @@
+com\tangly\mvc\WebConfig.class
+com\tangly\bean\ResponseBean.class
+com\tangly\mvc\CorsConfig.class
+com\tangly\util\WebUploadUtil.class
+com\tangly\CommonWebAppliacation.class
+com\tangly\aspect\WebLogAspect.class
+com\tangly\bean\ExceptionController.class

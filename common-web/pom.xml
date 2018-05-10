@@ -6,7 +6,7 @@
 
     <description>所有web模块需要引用的通用module</description>
     <groupId>com.tangly</groupId>
-    <artifactId>module-common-web</artifactId>
+    <artifactId>common-web</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <!-- 继承说明：这里继承SpringBoot提供的父工程 -->
