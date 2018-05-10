@@ -1,4 +1,4 @@
-package com.tangly.file;
+package com.tangly.controller;
 
 import com.tangly.bean.ResponseBean;
 import com.tangly.util.WebUploadUtil;
