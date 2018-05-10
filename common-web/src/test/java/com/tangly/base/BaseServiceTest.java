@@ -73,7 +73,7 @@ public class BaseServiceTest {
 //        sortMap.put("id","desc");
 //        sortMap.put("name","asc");
 //
-//        pr.setSorts(sortMap);
+//        pr.setOrderBys(sortMap);
 //
 //        Map<String,Object> searchParams = new HashMap();
 //        searchParams.put("id","1");

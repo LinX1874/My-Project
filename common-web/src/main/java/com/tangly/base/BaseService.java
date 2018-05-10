@@ -3,13 +3,14 @@ package com.tangly.base;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.tangly.bean.PageRequest;
-import com.tangly.bean.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 通用Service
@@ -144,32 +145,38 @@ public abstract class BaseService<T> implements IBaseInterface<T> {
 
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
-        List<Param> sortList = pageRequest.getSorts();
-        List<Param> searchParams = pageRequest.getSearchParams();
-
-        String orderBy = "";
-       if(!ObjectUtils.isEmpty(sortList)){
-           for(Param param : sortList){
-               orderBy += " " + param.getKey() + " " + param.getValue() + ",";
-           }
-           orderBy = orderBy.substring(0, orderBy.length() - 1);
-       }
+        Map<String, Object> orderBys = pageRequest.getOrderBys();
+        Map<String, Object> searchParams = pageRequest.getSearchParams();
 
         Example example = new Example(pageRequest.getClazz());
 
-        if(!ObjectUtils.isEmpty(searchParams)){
-           for(Param param :searchParams){
-               example
-                       .or()
-                       .andLike(param.getKey(), String.valueOf(param.getValue()));
-
-           }
+        if (!ObjectUtils.isEmpty(orderBys)) {
+            Iterator<Map.Entry<String, Object>> sortIterator = orderBys.entrySet().iterator();
+            Map.Entry<String, Object> sortEntry;
+            while (sortIterator.hasNext()) {
+                sortEntry = sortIterator.next();
+                sortEntry.getKey();
+                sortEntry.getValue();
+                if("asc".equals(sortEntry.getValue())){
+                    example.orderBy(sortEntry.getKey()).asc();
+                }else if ("desc".equals(sortEntry.getValue())){
+                    example.orderBy(sortEntry.getKey()).desc();
+                }
+            }
         }
 
+        if (!ObjectUtils.isEmpty(searchParams)) {
+            Iterator<Map.Entry<String, Object>> searchIterator = searchParams.entrySet().iterator();
+            Map.Entry<String, Object> searchEntity;
+            while (searchIterator.hasNext()) {
+                searchEntity = searchIterator.next();
+                example
+                        .or()
+                        .andLike(searchEntity.getKey(), String.valueOf(searchEntity.getValue()));
+            }
+        }
 
         PageHelper.startPage(pageNum, pageSize);
-
-        PageHelper.orderBy(orderBy);
 
         List<T> list = mapper.selectByExample(example);
 

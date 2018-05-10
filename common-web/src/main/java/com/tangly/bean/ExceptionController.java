@@ -1,5 +1,6 @@
 package com.tangly.bean;
 
+import com.alibaba.fastjson.JSONException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -52,6 +53,12 @@ public class ExceptionController {
     public ResponseBean handle401(ShiroException e) {
         log.error("shiro",e);
         return new ResponseBean(401, e.getMessage(), null);
+    }
+
+    @ExceptionHandler(JSONException.class)
+    public ResponseBean jsonException(JSONException e){
+        log.error("参数格式错误",e);
+        return new ResponseBean(HttpStatus.BAD_REQUEST.value(), "参数格式错误" , e.getMessage());
     }
 
     /**

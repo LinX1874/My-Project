@@ -47,11 +47,12 @@ mybatis:
     map-underscore-to-camel-case: true
     lazy-loading-enabled: true
     aggressive-lazy-loading: true
-
+  interceptors:
 mapper:
   mappers: com.tangly.base.BaseMybatisMapper #mappers 多个接口时逗号隔开
   not-empty: false
   identity: MYSQL
+
 
 #pagehelper
 pagehelper:
