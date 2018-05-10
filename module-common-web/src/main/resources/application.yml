@@ -1,0 +1,21 @@
+##############################################################
+#统一上传目录
+attach_path: ./attach/
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 100Mb
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    time-zone: UTC
+
