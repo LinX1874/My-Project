@@ -16,13 +16,11 @@
         <collection property="sysRoleList" resultMap="SysRoleMap"/>
     </resultMap>
 
-    <!--用户信息-->
     <resultMap id="UserInfoMap" type="com.tangly.entity.UserInfo">
         <id column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="user_nickname" jdbcType="VARCHAR" property="nickname"/>
     </resultMap>
 
-    <!--角色-->
     <resultMap id="SysRoleMap" type="com.tangly.entity.SysRole">
         <id column="role_id" jdbcType="BIGINT" property="id"/>
         <result column="role_available" jdbcType="BIT" property="available"/>
@@ -31,7 +29,6 @@
         <collection property="sysPermissionList" resultMap="SysPermission"/>
     </resultMap>
 
-    <!--权限-->
     <resultMap id="SysPermission" type="com.tangly.entity.SysPermission">
         <id column="permission_id" jdbcType="BIGINT" property="id" />
         <result column="permission_name" jdbcType="VARCHAR" property="name" />

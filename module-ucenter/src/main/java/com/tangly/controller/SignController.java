@@ -40,6 +40,7 @@ public class SignController {
      */
     private static final long EXPIRE_TIME_ONE_DAY = 24 * 60 * 60 * 1000;
 
+    @ApiOperation(value = "用户登录")
     @PostMapping("/signIn")
     public ResponseBean signIn(
             @RequestParam("username") String username,

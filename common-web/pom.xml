@@ -26,8 +26,8 @@
         <shiro-redis.version>2.4.6</shiro-redis.version>
         <jwt.version>3.2.0</jwt.version>
         <fastjson.version>1.2.31</fastjson.version>
-        <tk-mybatis-spring.version>1.1.5</tk-mybatis-spring.version>
-        <pagehelper-spring.version>1.2.3</pagehelper-spring.version>
+        <tk-mybatis-spring.version>2.0.0</tk-mybatis-spring.version>
+        <pagehelper-spring.version>1.2.5</pagehelper-spring.version>
         <druid.version>1.1.6</druid.version>
     </properties>
 
@@ -158,4 +158,12 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
