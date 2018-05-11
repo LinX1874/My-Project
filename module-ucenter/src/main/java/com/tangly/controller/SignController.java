@@ -49,11 +49,11 @@ public class SignController {
     ) {
 
         UserAuth userAuth = iUserAuthService.getUserAuth(username);
-        log.info("用户{} 登录成功", username);
+        log.info("用户 {} 尝试登录", username);
         if (ObjectUtils.isEmpty(userAuth)) {
-            return ResponseBean.success("用户名或密码错误", null);
+            return ResponseBean.error("用户名或密码错误", null);
         } else if (!passwordHelper.verifyPassword(password, userAuth)) {
-            return ResponseBean.success("用户名或密码错误", null);
+            return ResponseBean.error("用户名或密码错误", null);
         }
 
         Date expireDate = new Date(System.currentTimeMillis() + EXPIRE_TIME_ONE_DAY);
