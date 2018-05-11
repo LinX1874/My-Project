@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.AuthenticationException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class JWTUtil {
      * @param secret 用户的密码
      * @return 是否正确
      */
-    public static boolean verify(String token, String username, String secret) {
+    public static boolean verify(String token, String username, String secret) throws AuthenticationException {
         Algorithm algorithm = null;
         try {
             algorithm = Algorithm.HMAC256(secret);
@@ -39,8 +40,10 @@ public class JWTUtil {
             DecodedJWT jwt = verifier.verify(token);
         } catch (TokenExpiredException e){
             log.info("token过期 {}" , token );
+            throw new AuthenticationException("token已过期");
         } catch (JWTVerificationException e) {
             log.error("token非法" , token);
+            throw new AuthenticationException("token已失效");
         }
         return true;
     }

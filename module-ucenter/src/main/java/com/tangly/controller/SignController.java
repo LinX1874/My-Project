@@ -8,6 +8,7 @@ import com.tangly.util.PasswordHelper;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.ObjectUtils;
@@ -30,7 +31,7 @@ import java.util.Date;
 public class SignController {
 
     @Autowired
-    private IUserAuthService userAuthService;
+    private IUserAuthService iUserAuthService;
 
     @Autowired
     private PasswordHelper passwordHelper;
@@ -47,7 +48,7 @@ public class SignController {
             @RequestParam("password") String password
     ) {
 
-        UserAuth userAuth = userAuthService.getUserAuth(username);
+        UserAuth userAuth = iUserAuthService.getUserAuth(username);
         log.info("用户{} 登录成功", username);
         if (ObjectUtils.isEmpty(userAuth)) {
             return ResponseBean.success("用户名或密码错误", null);
@@ -70,11 +71,11 @@ public class SignController {
     })
     @ApiResponse(code = 202, message = "无法创建用户")
     public ResponseBean signUp(@RequestBody UserAuth userAuth) {
-        if (userAuthService.existUserName(userAuth.getLoginAccount())) {
+        if (iUserAuthService.existUserName(userAuth.getLoginAccount())) {
             return new ResponseBean(HttpStatus.OK.value(), "用户名已存在", "");
         }
 
-        userAuthService.registerUserAuth(userAuth);
+        iUserAuthService.registerUserAuth(userAuth);
 
         return new ResponseBean(HttpStatus.ACCEPTED.value(), "注册成功", "");
     }
@@ -84,14 +85,26 @@ public class SignController {
     @PostMapping("/updatePassword")
     @ApiResponse(code = 202, message = "无法创建用户")
     public ResponseBean updatePassword(@RequestParam String oldPassword , @RequestParam String newPassword) {
-        UserAuth userAuth = (UserAuth) SecurityUtils.getSubject();
+        Subject subject =  SecurityUtils.getSubject();
 
-        if(!passwordHelper.verifyPassword(oldPassword,userAuth)){
-            return ResponseBean.success("密码验证错误", null);
+        if(subject.isAuthenticated()){
+            UserAuth userAuth = (UserAuth) subject.getPrincipal();
+            if(!passwordHelper.verifyPassword(oldPassword,userAuth)){
+                return ResponseBean.success("密码验证错误", null);
+            }else{
+                userAuth.setLoginPassword(newPassword);
+                passwordHelper.encryptNewPassForUser(userAuth);
+                if(iUserAuthService.updateByPrimaryKeySelective(userAuth)>0){
+                    return ResponseBean.success("密码修改成功");
+                }else{
+                    return ResponseBean.error("密码修改失败");
+                }
+            }
         }else{
+            return ResponseBean.error("请先登录");
         }
 
-        return new ResponseBean(HttpStatus.ACCEPTED.value(), "注册成功", "");
+
     }
 
 

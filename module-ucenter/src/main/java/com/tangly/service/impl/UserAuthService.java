@@ -39,7 +39,7 @@ public class UserAuthService extends BaseService<UserAuth> implements IUserAuthS
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void registerUserAuth(UserAuth userAuth) {
-        passwordHelper.encryptNewUser(userAuth);
+        passwordHelper.encryptNewPassForUser(userAuth);
 
         UserInfo userInfo = userAuth.getUserInfo();
 

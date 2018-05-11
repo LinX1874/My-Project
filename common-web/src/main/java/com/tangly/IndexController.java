@@ -8,6 +8,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -49,10 +50,10 @@ public class IndexController {
         return "websocket";
     }
 
-        @GetMapping(path = "/401")
+    @GetMapping(path = "/401")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
-    public ResponseBean unauthorized() {
-        return new ResponseBean(401, "无权访问或登录过期", null);
+    public ResponseBean unauthorized(@RequestParam(required = false) String err) {
+        return new ResponseBean(401, "无权访问或登录过期", err);
     }
 }

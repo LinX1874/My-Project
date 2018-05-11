@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * restful要统一返回的格式，
- * 所以我们也要全局处理Spring Boot的抛出异常。
- * 利用@RestControllerAdvice能很好的实现。
+ * 全局处理Spring Boot的抛出异常。
+ * @author tangly
  */
 @RestControllerAdvice
 @Slf4j
@@ -39,7 +38,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseBean handle403(UnauthorizedException e) {
-        return new ResponseBean(403, "无权访问", null);
+        return new ResponseBean(403, "无权访问", e.getMessage());
     }
 
 

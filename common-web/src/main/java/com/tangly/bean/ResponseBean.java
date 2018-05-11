@@ -82,6 +82,10 @@ public class ResponseBean {
         return new ResponseBean(HttpStatus.INTERNAL_SERVER_ERROR.value(),message,"");
     }
 
+    public static ResponseBean error(String message, Object data){
+        return new ResponseBean(HttpStatus.INTERNAL_SERVER_ERROR.value(),message,data);
+    }
+
     public static ResponseBean success(Object data) {
         return new ResponseBean(HttpStatus.OK.value(),"成功",data);
     }

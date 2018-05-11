@@ -17,8 +17,12 @@ public class PasswordHelper {
     private String algorithmName = "md5";
     // 散列次数
     private final int hashIterations = 2;
-    
-    public void encryptNewUser(UserAuth userAuth) {
+
+    /**
+     * 根据用户的password字段（未加密） 生成新的密文和盐
+     * @param userAuth
+     */
+    public void encryptNewPassForUser(UserAuth userAuth) {
         //设置初始化salt
         userAuth.setLoginSalt(randomNumberGenerator.nextBytes().toHex());
         //通过salt ,将密码进行加密，这里加密使用的salt是uName+初始化salt

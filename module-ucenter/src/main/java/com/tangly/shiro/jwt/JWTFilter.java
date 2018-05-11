@@ -29,11 +29,11 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
     @Override
-    protected boolean executeLogin(ServletRequest request, ServletResponse response){
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String authorization = httpServletRequest.getHeader("Authorization");
 
-        JWTToken token = new JWTToken(authorization ,request.getRemoteHost());
+        JWTToken token = new JWTToken(authorization, request.getRemoteHost());
         // 提交给realm进行登入，如果错误他会抛出异常并被捕获
         getSubject(request, response).login(token);
         // 如果没有抛出异常则代表登入成功，返回true
@@ -55,7 +55,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             try {
                 executeLogin(request, response);
             } catch (Exception e) {
-                response401(request, response);
+                response401(request, response, e);
+//                throw new AuthenticationException(e);
             }
         }
         return true;
@@ -82,12 +83,13 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     /**
      * 将非法请求跳转到 /401
      */
-    private void response401(ServletRequest req, ServletResponse resp) {
+    private void response401(ServletRequest req, ServletResponse resp, Exception e) {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/401");
-        } catch (IOException e) {
-            log.error(e.getMessage());
+            httpServletResponse.sendRedirect("/401?err=" + e.getMessage());
+
+        } catch (IOException e1) {
+            log.error(e1.getMessage());
         }
     }
 }
