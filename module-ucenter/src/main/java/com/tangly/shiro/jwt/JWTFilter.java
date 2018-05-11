@@ -10,6 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * @author tangly
@@ -86,7 +87,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private void response401(ServletRequest req, ServletResponse resp, Exception e) {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/401?err=" + e.getMessage());
+            httpServletResponse.sendRedirect("/401?err=" + URLEncoder.encode(e.getMessage(),"utf-8"));
 
         } catch (IOException e1) {
             log.error(e1.getMessage());

@@ -59,7 +59,7 @@ public class SignController {
         Date expireDate = new Date(System.currentTimeMillis() + EXPIRE_TIME_ONE_DAY);
 
         //签发token
-        return new ResponseBean(200, "Login success", JWTUtil.sign(username, passwordHelper.encryptPassword(password, userAuth), expireDate));
+        return new ResponseBean(200, "登录成功", JWTUtil.sign(username, passwordHelper.encryptPassword(password, userAuth), expireDate));
 
     }
 

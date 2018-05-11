@@ -1,4 +1,4 @@
-package com.tangly;
+package com.tangly.controller;
 
 import com.tangly.bean.ResponseBean;
 import io.swagger.annotations.Api;
@@ -45,6 +45,7 @@ public class IndexController {
         return "logout";
     }
 
+    @ApiOperation(value = "跳转到WebSocket测试页面")
     @GetMapping("/websocket")
     public String websocket() {
         return "websocket";

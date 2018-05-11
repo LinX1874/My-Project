@@ -27,7 +27,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthenticatedException.class)
     public ResponseBean handleUnauthenticated(UnauthenticatedException e) {
-        log.info(e.getMessage());
+        log.error(e.getMessage());
         return new ResponseBean(401, "请先登录", null);
     }
 

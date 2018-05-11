@@ -29,6 +29,7 @@
         <tk-mybatis-spring.version>2.0.0</tk-mybatis-spring.version>
         <pagehelper-spring.version>1.2.5</pagehelper-spring.version>
         <druid.version>1.1.6</druid.version>
+        <nekohtml.version>1.9.22</nekohtml.version>
     </properties>
 
 
@@ -63,6 +64,17 @@
             <version>${druid.version}</version>
         </dependency>
 
+        <!--前端 THYMELEAF -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!--HTML标签自动修正-->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>${nekohtml.version}</version>
+        </dependency>
         <!--webSocket-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
