@@ -25,7 +25,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -61,7 +60,7 @@ public class HelloWorldController {
         return new ResponseBean(HttpStatus.OK.value(), "成功", pageInfo);
     }
 
-    @ApiOperation(value = "创建HelloWorld", notes = "根据HelloWorld对象创建HelloWorld")
+    @ApiOperation(value = "创建HelloWorld实体", notes = "根据HelloWorld对象创建HelloWorld")
     @ApiImplicitParam(name = "helloWorld", value = "id字段由服务端生成，前端不用传", required = true, dataType = "HelloWorld")
     @PostMapping(value = "")
     public ResponseBean postHelloWorld(@RequestBody HelloWorld helloWorld) {
@@ -71,9 +70,9 @@ public class HelloWorldController {
         return new ResponseBean(HttpStatus.CREATED.value(), "成功", helloWorld);
     }
 
-    @ApiOperation(value = "更新完整HelloWorld实体", notes = "根据传过来的helloWorld信息来更新HelloWorld详细信息")
+    @ApiOperation(value = "更新完整HelloWorld实体", notes = "请传完整的helloworld对象")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "helloWorld", value = "HelloWorld详细实体helloWorld", required = true, dataType = "HelloWorld")
+            @ApiImplicitParam(name = "helloWorld", value = "HelloWorld完整实体", required = true, dataType = "HelloWorld")
     })
     @PutMapping()
     public ResponseBean putHelloWorld(@RequestBody HelloWorld helloWorld) {
@@ -82,16 +81,16 @@ public class HelloWorldController {
         return new ResponseBean(HttpStatus.OK.value(), "成功", helloWorld);
     }
 
-    @ApiOperation(value = "更新部分HelloWorld详细信息", notes = "不传的字段就不更新")
+    @ApiOperation(value = "更新HelloWorld实体部分字段", notes = "不传的字段就不更新")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "helloWorld", value = "HelloWorld详细实体helloWorld", required = true, dataType = "HelloWorld")
+            @ApiImplicitParam(name = "helloWorld", value = "HelloWorld实体需要更新的字段", required = true, dataType = "HelloWorld")
     })
     @PatchMapping()
     public ResponseBean patchHelloWorld(@RequestBody HelloWorld helloWorld) {
         iHelloWorldService.updateByPrimaryKeySelective(helloWorld);
         return new ResponseBean(HttpStatus.OK.value(), "成功", helloWorld);
     }
-@NotNull
+
     @ApiOperation(value = "获取HelloWorld详细信息", notes = "根据url的id来获取HelloWorld详细信息")
     @ApiImplicitParam(paramType = "path", name = "id", dataType = "Integer")
     @GetMapping(value = "/{id}")

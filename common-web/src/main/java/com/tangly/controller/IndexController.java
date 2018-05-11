@@ -25,11 +25,12 @@ public class IndexController {
      * 重定向到主题模板
      * @return
      */
-    @GetMapping("theme")
-    @ApiOperation(value = "访问主题模板目录")
-    public String theme() {
-        return "redirect:./static/theme/index.html";
+    @GetMapping("/")
+    @ApiOperation(value = "访问首页")
+    public String index() {
+        return "index";
     }
+
 
     @ApiOperation(value = "跳转到登录页面")
     @GetMapping(value = "login")

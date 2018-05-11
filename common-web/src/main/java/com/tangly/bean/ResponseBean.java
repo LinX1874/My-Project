@@ -1,5 +1,6 @@
 package com.tangly.bean;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
  * @author tangly
  */
 @Data
+@ApiModel(description = "通用返回对象")
 public class ResponseBean {
 
     /**

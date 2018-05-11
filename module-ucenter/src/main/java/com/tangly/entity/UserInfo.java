@@ -7,10 +7,14 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * @author tangly
+ */
 @Table(name = "user_info")
 @Data
-@ApiModel
+@ApiModel(description = "用户信息实体")
 public class UserInfo implements Serializable{
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,11 +23,4 @@ public class UserInfo implements Serializable{
     @Column(name = "nickname")
     private String nickname;
 
-    @Override
-    public String toString() {
-        return "UserInfo{" +
-                "userId=" + userId +
-                ", nickname='" + nickname + '\'' +
-                '}';
-    }
 }

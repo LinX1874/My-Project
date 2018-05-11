@@ -14,7 +14,9 @@ import java.util.Map;
  * @since JDK 1.7
  */
 @Data
-@ApiModel(value = "分页查询请求类")
+@ApiModel(description = "分页查询请求类：\n" +
+        " orderBys 表示根据哪些字段排序例如 {id:'asc',name:'desc'} 表示根据id 正序排列并且根据name逆向排序; \n" +
+        " searchParams 表示根据哪些字段查询例如 {name:'张三',phone_num:'139%'} 表示 name等于张三 并且 phone是以139开头的。 " )
 public class PageRequest implements Serializable {
 
     /***

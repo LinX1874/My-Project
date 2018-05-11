@@ -1,5 +1,6 @@
 package com.tangly.entity;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Data
+@ApiModel(description = "示例实体")
 public class HelloWorld {
 
     @Id

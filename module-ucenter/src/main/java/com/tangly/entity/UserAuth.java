@@ -7,8 +7,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @author tangly
+ */
 @Table(name = "user_auth")
-@ApiModel
+@ApiModel(description = "用户登录信息实体")
 public class UserAuth implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
