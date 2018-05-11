@@ -46,7 +46,7 @@ public class HelloWorldController {
 
     @ApiOperation(value = "获取HelloWorld列表", notes = "获取列表")
     @GetMapping(value = {""})
-    public ResponseBean getAllHelloWorldList() {
+    public ResponseBean getAllList() {
         List<HelloWorld> r = iHelloWorldService.selectAll();
         return new ResponseBean(HttpStatus.OK.value(), "成功", r);
 
