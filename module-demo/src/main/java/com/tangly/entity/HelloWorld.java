@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -18,9 +20,18 @@ public class HelloWorld {
 
     @Id
     @ApiModelProperty(value = "主键",required = true)
+    /**
+     *  配置自增 @GeneratedValue，
+     *  实体insert后可以立即用getId方法获得
+     */
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ApiModelProperty(value = "名称")
+    /**
+     * @NotNull @Pattern @Min @Max 是javax.validation.contrains校验框架中的注解；
+     *
+     */
     @NotNull(message = "名字不能为空")
     @Size(min = 2, max = 14 , message = "名字长度限制为2-14")
     private String name;

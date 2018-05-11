@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -70,7 +71,7 @@ public class HelloWorldController {
         return new ResponseBean(HttpStatus.CREATED.value(), "成功", helloWorld);
     }
 
-    @ApiOperation(value = "更新HelloWorld详细信息", notes = "根据传过来的helloWorld信息来更新HelloWorld详细信息")
+    @ApiOperation(value = "更新完整HelloWorld实体", notes = "根据传过来的helloWorld信息来更新HelloWorld详细信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "helloWorld", value = "HelloWorld详细实体helloWorld", required = true, dataType = "HelloWorld")
     })
@@ -78,20 +79,19 @@ public class HelloWorldController {
     public ResponseBean putHelloWorld(@RequestBody HelloWorld helloWorld) {
         ValidateUtil.validate(helloWorld);
         iHelloWorldService.updateByPrimaryKey(helloWorld);
-        return new ResponseBean(HttpStatus.OK.value(), "成功", null);
+        return new ResponseBean(HttpStatus.OK.value(), "成功", helloWorld);
     }
 
-    @ApiOperation(value = "更新部分HelloWorld详细信息", notes = "根据传过来的helloWorld信息非空字段来更新HelloWorld详细信息")
+    @ApiOperation(value = "更新部分HelloWorld详细信息", notes = "不传的字段就不更新")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "helloWorld", value = "HelloWorld详细实体helloWorld", required = true, dataType = "HelloWorld")
     })
     @PatchMapping()
     public ResponseBean patchHelloWorld(@RequestBody HelloWorld helloWorld) {
-        ValidateUtil.validate(helloWorld);
         iHelloWorldService.updateByPrimaryKeySelective(helloWorld);
-        return new ResponseBean(HttpStatus.OK.value(), "成功", null);
+        return new ResponseBean(HttpStatus.OK.value(), "成功", helloWorld);
     }
-
+@NotNull
     @ApiOperation(value = "获取HelloWorld详细信息", notes = "根据url的id来获取HelloWorld详细信息")
     @ApiImplicitParam(paramType = "path", name = "id", dataType = "Integer")
     @GetMapping(value = "/{id}")

@@ -72,7 +72,7 @@ public class JWTRealm extends AuthorizingRealm {
         // 解密获得username，用于和数据库进行对比
         String username = JWTUtil.getUsername(jwt);
         if (username == null) {
-            throw new AuthenticationException("token invalid");
+            throw new AuthenticationException("无效的token");
         }
 
         UserAuth userAuth = iUserAuthService.getUserAuth(username);
