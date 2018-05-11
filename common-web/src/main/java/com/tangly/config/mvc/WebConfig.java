@@ -55,6 +55,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
 
+        //前端打包的资源文件，和index.html一起放在templates目录下
+        registry.addResourceHandler("/dist/**")
+                .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/templates/dist/")
+                .setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS)
+                .cachePublic()).resourceChain(false)
+                .addResolver(new GzipResourceResolver())
+                .addResolver(new VersionResourceResolver()
+                        .addContentVersionStrategy("/**"));
+
         registry.addResourceHandler("/static/**")
                 .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/")
                 .setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS)

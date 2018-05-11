@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1>欢迎访问后台首页</h1>
+<ul>
+    <li><a href="./druid">数据源</a></li>
+    <li><a href="./swagger-ui.html">接口文档</a></li>
+</ul>
+
+
+
+</body>
+</html>
