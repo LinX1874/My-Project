@@ -193,4 +193,16 @@ public abstract class BaseService<T> implements IBaseInterface<T> {
     public List<T> select(T t) {
         return mapper.select(t);
     }
+
+    /**
+     * 根据Example 查找对象
+     *
+     * @param t
+     * @return
+     */
+    @Override
+    public List<T> selectByExample(Example e) {
+        return mapper.selectByExample(e);
+    }
+
 }

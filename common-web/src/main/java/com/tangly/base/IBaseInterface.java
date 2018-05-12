@@ -2,6 +2,7 @@ package com.tangly.base;
 
 import com.github.pagehelper.PageInfo;
 import com.tangly.bean.PageRequest;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -99,5 +100,11 @@ public interface IBaseInterface<T> {
     List<T> select(T t);
 
 
+    /**
+     * 根据Example 查找对象
+     * @param e
+     * @return
+     */
+    List<T> selectByExample(Example e);
 
 }

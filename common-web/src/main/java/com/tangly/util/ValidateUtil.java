@@ -14,7 +14,13 @@ import java.util.Set;
  * @author tangly
  */
 public class ValidateUtil {
-    
+    /**
+     * 根据实体中的注解验证字段参数是否正确
+     * 如果字段不符合要求，抛出异常
+     * @param obj
+     * @param <T>
+     * @throws IllegalArgumentException
+     */
     public static <T> void validate(T obj) {
         ValidatorFactory factory = Validation.byProvider(HibernateValidator.class)
                 .configure()
