@@ -7,10 +7,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -55,6 +52,7 @@ public class IndexController {
     @GetMapping(path = "/401")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
+    @ApiOperation(value = "访问无权限跳转")
     public ResponseBean unauthorized(@RequestParam(required = false) String err) {
         return new ResponseBean(401, "无权访问或登录过期", err);
     }

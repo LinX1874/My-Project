@@ -1,6 +1,7 @@
-package com.tangly.bean;
+package com.tangly.controller;
 
 import com.alibaba.fastjson.JSONException;
+import com.tangly.bean.ResponseBean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestControllerAdvice
 @Slf4j
-public class ExceptionController {
+public class RestControllerAdvisor {
 
     /**
      * 捕捉shiro未登录的异常

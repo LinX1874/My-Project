@@ -2,7 +2,18 @@ package com.tangly.bean;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ErrorAttributes;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @author tangly
@@ -84,8 +95,8 @@ public class ResponseBean {
         return new ResponseBean(HttpStatus.INTERNAL_SERVER_ERROR.value(),message,"");
     }
 
-    public static ResponseBean error(String message, Object data){
-        return new ResponseBean(HttpStatus.INTERNAL_SERVER_ERROR.value(),message,data);
+    public static ResponseBean error(String message, Throwable e){
+        return new ResponseBean(HttpStatus.INTERNAL_SERVER_ERROR.value(),message,e);
     }
 
     public static ResponseBean success(Object data) {
