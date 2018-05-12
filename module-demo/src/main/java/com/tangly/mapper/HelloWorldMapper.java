@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * 用注解形式的查询
  */
 @Repository
-public interface HelloWorldMybatisMapper extends BaseMybatisMapper<HelloWorld> {
+public interface HelloWorldMapper extends BaseMybatisMapper<HelloWorld> {
 
 }

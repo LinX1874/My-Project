@@ -49,17 +49,10 @@ public class HelloWorld {
         this.name = name;
     }
 
-    public HelloWorld(Integer id , String name) {
-        this.id = id;
-        this.name = name;
-    }
 
-    @Override
-    public String toString() {
-        return "HelloWolrd{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    public HelloWorld(String name, String phoneNum) {
+        this.name = name;
+        this.phoneNum = phoneNum;
     }
 
     /**
