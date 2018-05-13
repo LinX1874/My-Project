@@ -28,14 +28,14 @@ public class ShiroConfig {
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
 
         // 添加自己的过滤器并且取名为jwt
-        Map<String, Filter> filterMap = new HashMap(1);
+        Map<String, Filter> filterMap = new HashMap<String, Filter>(1);
         filterMap.put("jwt", new JWTFilter());
         factoryBean.setFilters(filterMap);
 
         factoryBean.setSecurityManager(securityManager);
         factoryBean.setUnauthorizedUrl("/401");
 
-        Map<String, String> filterRuleMap = new HashMap(4);
+        Map<String, String> filterRuleMap = new HashMap<String, String>(4);
         // 所有请求通过我们自己的JWT Filter
         // 访问401和404页面不通过我们的Filter
         filterRuleMap.put("/401", "anon");
