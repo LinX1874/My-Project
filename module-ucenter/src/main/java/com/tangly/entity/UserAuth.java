@@ -1,5 +1,7 @@
 package com.tangly.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +12,7 @@ import javax.persistence.*;
 
 @Table(name = "user_auth")
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
+@ApiModel(description = "用户账号实体")
 public class UserAuth {
     /**
      * 账号关联的用户信息实体
@@ -21,25 +24,28 @@ public class UserAuth {
      * 主键
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "JDBC")
     private Long id;
 
     /**
      * 关联用户信息
      */
     @Column(name = "user_info_id")
+    @ApiModelProperty(hidden = true)
     private Long userInfoId;
 
     /**
      * 是否可用
      */
     @Column(name = "auth_available")
+    @ApiModelProperty(notes = "是否可用")
     private Boolean authAvailable;
 
     /**
      * 账号类型，用户名密码
      */
     @Column(name = "login_type")
+    @ApiModelProperty(example = "username", notes = "账号类型，默认填username，其它根据账号类型可以填写phone，wexin，qq等等")
     private String loginType;
 
     /**
@@ -58,6 +64,7 @@ public class UserAuth {
      * 密码加盐
      */
     @Column(name = "login_salt")
+    @ApiModelProperty(hidden = true)
     private String loginSalt;
 
     /**
@@ -76,18 +83,29 @@ public class UserAuth {
      * 最后登录的设备
      */
     @Column(name = "last_login_device")
+    @ApiModelProperty(hidden = true)
     private String lastLoginDevice;
 
     /**
      * 最后一次登录尝试
      */
     @Column(name = "last_login_try_count")
+    @ApiModelProperty(hidden = true)
     private Integer lastLoginTryCount;
 
     /**
      * 上次登录生成的token
      */
     @Column(name = "last_login_token")
+    @ApiModelProperty(hidden = true)
     private String lastLoginToken;
+
+    @Column(name = "create_time")
+    @ApiModelProperty(hidden = true)
+    private Date createTime;
+
+    @Column(name = "update_time")
+    @ApiModelProperty(hidden = true)
+    private Date updateTime;
 
 }

@@ -36,7 +36,6 @@
         <javaModelGenerator targetPackage="com.tangly.entity" targetProject="target">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
-
         </javaModelGenerator>
 
         <!--生成映射文件存放位置-->

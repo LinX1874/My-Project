@@ -6,11 +6,14 @@ import com.tangly.entity.UserInfo;
 import com.tangly.mapper.UserAuthMapper;
 import com.tangly.mapper.UserInfoMapper;
 import com.tangly.service.IUserAuthService;
+import com.tangly.service.IUserInfoService;
 import com.tangly.util.PasswordHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+
+import java.util.Date;
 
 /**
  * date: 2018/5/2 10:24 <br/>
@@ -30,11 +33,12 @@ public class UserAuthService extends BaseService<UserAuth> implements IUserAuthS
     @Autowired
     PasswordHelper passwordHelper;
 
+    @Autowired
+    IUserInfoService iUserInfoService;
+
     @Override
     public UserAuth getUserAuth(String loginAccount) {
-//        UserAuth userAuth = userAuthMapper.getUserAuth(loginAccount);
-//        return userAuth;
-        return null;
+        return userAuthMapper.getUserAuth(loginAccount);
     }
 
     @Override
@@ -42,15 +46,13 @@ public class UserAuthService extends BaseService<UserAuth> implements IUserAuthS
     public void registerUserAuth(UserAuth userAuth) {
         passwordHelper.encryptNewPassForUser(userAuth);
 
-//        UserInfo userInfo = userAuth.getUserInfo();
+        UserInfo ui = iUserInfoService.insert(userAuth.getUserInfo());
 
-        //先存入用户信息
-//        userInfoMapper.insert(userAuth.getUserInfo());
+        userAuth.setUserInfo(ui);
+        userAuth.setUserInfoId(ui.getId());
+        userAuth.setCreateTime(new Date());
 
-        //生成关联
-//        userAuth.setUserId(userInfo.getUserId());
-//        存入账号体系
-        userAuthMapper.insert(userAuth);
+        userAuthMapper.insertSelective(userAuth);
     }
 
     @Override

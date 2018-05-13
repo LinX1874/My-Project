@@ -197,7 +197,7 @@ public abstract class BaseService<T> implements IBaseInterface<T> {
     /**
      * 根据Example 查找对象
      *
-     * @param t
+     * @param e
      * @return
      */
     @Override

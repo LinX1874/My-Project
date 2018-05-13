@@ -2,7 +2,9 @@ package com.tangly.controller;
 
 import com.tangly.bean.ResponseBean;
 import com.tangly.entity.UserAuth;
+import com.tangly.entity.UserInfo;
 import com.tangly.service.IUserAuthService;
+import com.tangly.service.IUserInfoService;
 import com.tangly.shiro.jwt.JWTUtil;
 import com.tangly.util.PasswordHelper;
 import io.swagger.annotations.*;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 //import com.tangly.config.shiro.jwt.JWTUtil;
@@ -34,6 +37,9 @@ public class SignController {
     private IUserAuthService iUserAuthService;
 
     @Autowired
+    private IUserInfoService iUserInfoService;
+
+    @Autowired
     private PasswordHelper passwordHelper;
 
     /**
@@ -45,68 +51,72 @@ public class SignController {
     @PostMapping("/signIn")
     public ResponseBean signIn(
             @RequestParam("username") String username,
-            @RequestParam("password") String password
+            @RequestParam("password") String password, HttpServletRequest request
     ) {
 
         UserAuth userAuth = iUserAuthService.getUserAuth(username);
         log.info("用户 {} 尝试登录", username);
         if (ObjectUtils.isEmpty(userAuth)) {
+            //TODO 为了防止用户暴力破解这里需要把反复尝试的ip拉入黑名单
             return ResponseBean.error("用户名或密码错误", null);
         } else if (!passwordHelper.verifyPassword(password, userAuth)) {
+            userAuth.setLastLoginTryCount(userAuth.getLastLoginTryCount() + 1);
+            iUserAuthService.updateByPrimaryKeySelective(userAuth);
             return ResponseBean.error("用户名或密码错误", null);
+        } else {
+            Date expireDate = new Date(System.currentTimeMillis() + EXPIRE_TIME_ONE_DAY);
+            String token = JWTUtil.sign(username, passwordHelper.encryptPassword(password, userAuth), expireDate);
+            userAuth.setLastLoginTime(new Date());
+            userAuth.setLastLoginToken(token);
+            userAuth.setLastLoginIp(request.getRemoteAddr());
+            userAuth.setLastLoginTryCount(0);
+            iUserAuthService.updateByPrimaryKeySelective(userAuth);
+            //签发token
+            return new ResponseBean(200, "登录成功", token);
         }
-
-        Date expireDate = new Date(System.currentTimeMillis() + EXPIRE_TIME_ONE_DAY);
-
-        //签发token
-        return new ResponseBean(200, "登录成功", JWTUtil.sign(username, passwordHelper.encryptPassword(password, userAuth), expireDate));
-
     }
-
 
     @ApiOperation(value = "用户注册")
     @PostMapping("/signUp")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userAuth", value = "用户账号实体", required = true, dataType = "UserAuth")
     })
-    @ApiResponse(code = 202, message = "无法创建用户")
     public ResponseBean signUp(@RequestBody UserAuth userAuth) {
+
+        log.info("用户 {} 尝试注册", userAuth.getLoginAccount());
+
         if (iUserAuthService.existUserName(userAuth.getLoginAccount())) {
             return new ResponseBean(HttpStatus.OK.value(), "用户名已存在", "");
         }
-
+        //创建账号信息
         iUserAuthService.registerUserAuth(userAuth);
-
         return new ResponseBean(HttpStatus.ACCEPTED.value(), "注册成功", "");
     }
 
 
     @ApiOperation(value = "修改密码")
     @PostMapping("/updatePassword")
-    @ApiResponse(code = 202, message = "无法创建用户")
-    public ResponseBean updatePassword(@RequestParam String oldPassword , @RequestParam String newPassword) {
-        Subject subject =  SecurityUtils.getSubject();
+    public ResponseBean updatePassword(@RequestParam String oldPassword, @RequestParam String newPassword) {
 
-        if(subject.isAuthenticated()){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
             UserAuth userAuth = (UserAuth) subject.getPrincipal();
-            if(!passwordHelper.verifyPassword(oldPassword,userAuth)){
+            log.info("用户 {} 尝试修改密码", userAuth.getLoginAccount());
+            if (!passwordHelper.verifyPassword(oldPassword, userAuth)) {
+                //TODO 多次密码验证错误要将用户退出登录
                 return ResponseBean.success("密码验证错误", null);
-            }else{
+            } else {
                 userAuth.setLoginPassword(newPassword);
                 passwordHelper.encryptNewPassForUser(userAuth);
-                if(iUserAuthService.updateByPrimaryKeySelective(userAuth)>0){
+                if (iUserAuthService.updateByPrimaryKeySelective(userAuth) > 0) {
                     return ResponseBean.success("密码修改成功");
-                }else{
+                } else {
                     return ResponseBean.error("密码修改失败");
                 }
             }
-        }else{
+        } else {
             return ResponseBean.error("请先登录");
         }
-
-
     }
-
-
 
 }

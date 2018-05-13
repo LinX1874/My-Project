@@ -17,16 +17,18 @@
     <result column="last_login_device" jdbcType="VARCHAR" property="lastLoginDevice" />
     <result column="last_login_try_count" jdbcType="INTEGER" property="lastLoginTryCount" />
     <result column="last_login_token" jdbcType="VARCHAR" property="lastLoginToken" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 
-
-
   <resultMap id="UserAuthMap" type="com.tangly.entity.UserAuth" extends="BaseResultMap">
-    <association property="userInfo" resultMap="com.tangly.mapper.UserInfoMapper.BaseResultMap" ></association>
+    <association property="userInfo" resultMap="com.tangly.mapper.UserInfoMapper.BaseResultMap" columnPrefix="ui_"></association>
   </resultMap>
 
   <select id="getUserAuth" resultMap="UserAuthMap">
-    SELECT ua.* ,ui.* FROM user_auth ua
+    SELECT ua.* ,
+    ui.id AS  ui_id, ui.user_avatar as ui_avatar , ui.user_nickname as ui_user_nickname , ui.user_sex as ui_user_sex
+    FROM user_auth ua
     LEFT JOIN user_info ui ON ui.id = ua.user_info_id
     WHERE ua.login_account = #{loginAccount}
   </select>
