@@ -47,7 +47,7 @@
             console.log("您的浏览器不支持WebSocket");
         } else {
             console.log("您的浏览器支持WebSocket");
-            var token = document.getElementById("token").value;
+            var token = document.getElementById("token").code;
             socket = new WebSocket("ws://localhost:8080/endpoint/" + token);
             console.log(socket);
             //打开事件
@@ -88,8 +88,8 @@
     }
 
     function send() {
-        var name = document.getElementById("name").value;
-        var to = document.getElementById("to").value;
+        var name = document.getElementById("name").code;
+        var to = document.getElementById("to").code;
         if (!socket) {
             alert('未连接!');
             return;

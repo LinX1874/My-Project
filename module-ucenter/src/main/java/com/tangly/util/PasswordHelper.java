@@ -26,8 +26,8 @@ public class PasswordHelper {
         //设置初始化salt
         userAuth.setLoginSalt(randomNumberGenerator.nextBytes().toHex());
         //通过salt ,将密码进行加密，这里加密使用的salt是uName+初始化salt
-        String newPassword = new SimpleHash(algorithmName, userAuth.getLoginPassword(), userAuth.getCredentialsSalt(), hashIterations).toHex();
-        userAuth.setLoginPassword(newPassword);
+//        String newPassword = new SimpleHash(algorithmName, userAuth.getLoginPassword(), userAuth.getCredentialsSalt(), hashIterations).toHex();
+//        userAuth.setLoginPassword(newPassword);
     }
 
     /**
@@ -37,7 +37,8 @@ public class PasswordHelper {
      * @return
      */
     public boolean verifyPassword(String plainPassword , UserAuth userAuth){
-       return  userAuth.getLoginPassword().equals(new SimpleHash(algorithmName, plainPassword, userAuth.getCredentialsSalt(), hashIterations).toHex());
+        return false;
+//       return  userAuth.getLoginPassword().equals(new SimpleHash(algorithmName, plainPassword, userAuth.getCredentialsSalt(), hashIterations).toHex());
     }
 
     /**
@@ -46,7 +47,8 @@ public class PasswordHelper {
      * @return
      */
     public String encryptPassword(String plainPassword , UserAuth userAuth){
-        return new SimpleHash(algorithmName, plainPassword, userAuth.getCredentialsSalt(), hashIterations).toHex();
+        return null;
+//        return new SimpleHash(algorithmName, plainPassword, userAuth.getCredentialsSalt(), hashIterations).toHex();
     }
 
 }

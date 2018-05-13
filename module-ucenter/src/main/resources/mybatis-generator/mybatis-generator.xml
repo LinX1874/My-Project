@@ -54,12 +54,12 @@
         </javaClientGenerator>
 
         <!--生成对应表及类名 去掉Mybatis Generator生成的一堆 example-->
-        <table tableName="hello_world" domainObjectName="HelloWorld"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false">
+        <table tableName="user_auth" domainObjectName="UserAuth">
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+
+        <!--生成对应表及类名 去掉Mybatis Generator生成的一堆 example-->
+        <table tableName="user_info" domainObjectName="UserInfo">
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
 

@@ -18,7 +18,7 @@ public class HelloWorldTest {
     @Test(expected = IllegalArgumentException.class)
     public void testValidate(){
 
-        HelloWorld helloWorld2 = new HelloWorld("哈哈哈","1123");
+        HelloWorld helloWorld2 = HelloWorld.builder().name("姓名").phoneNum("123456").build();
         ValidateUtil.validate(helloWorld2);
 
     }

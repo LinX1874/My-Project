@@ -32,8 +32,9 @@ public class UserAuthService extends BaseService<UserAuth> implements IUserAuthS
 
     @Override
     public UserAuth getUserAuth(String loginAccount) {
-        UserAuth userAuth = userAuthMapper.getUserAuth(loginAccount);
-        return userAuth;
+//        UserAuth userAuth = userAuthMapper.getUserAuth(loginAccount);
+//        return userAuth;
+        return null;
     }
 
     @Override
@@ -41,14 +42,14 @@ public class UserAuthService extends BaseService<UserAuth> implements IUserAuthS
     public void registerUserAuth(UserAuth userAuth) {
         passwordHelper.encryptNewPassForUser(userAuth);
 
-        UserInfo userInfo = userAuth.getUserInfo();
+//        UserInfo userInfo = userAuth.getUserInfo();
 
         //先存入用户信息
-        userInfoMapper.insert(userAuth.getUserInfo());
+//        userInfoMapper.insert(userAuth.getUserInfo());
 
         //生成关联
-        userAuth.setUserId(userInfo.getUserId());
-        //存入账号体系
+//        userAuth.setUserId(userInfo.getUserId());
+//        存入账号体系
         userAuthMapper.insert(userAuth);
     }
 

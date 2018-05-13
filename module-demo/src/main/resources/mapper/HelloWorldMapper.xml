@@ -8,5 +8,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="phone_num" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="type" jdbcType="TINYINT" property="type" />
   </resultMap>
 </mapper>

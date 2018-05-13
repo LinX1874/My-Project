@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserAuthMapper extends BaseMybatisMapper<UserAuth> {
-
-    UserAuth getUserAuth(String loginAccount);
 }

@@ -1,22 +1,29 @@
 package com.tangly.entity;
 
+import com.tangly.enums.EType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * @author tangly
+ *
+ * 【@Data @Builder @NoArgsConstructor @AllArgsConstructor】 所有的实体entity请加入这几个注解；
+ * 以上注解说明详见： 【Lombok注解】  https://blog.csdn.net/sunsfan/article/details/53542374
+ * 在方法中不要写setter/getter/toString等冗余代码，而使用lombok的该注解代替
+ *
+ * 【@Builder @NoArgsConstructor @AllArgsConstructor】请尽量避免使用对象的 new XX() 构造方法， 而使用Lombok注解@Builder的构造器方式
+ * 【@ApiModel @ApiModelProperty】 是SwaggerUI的接口文档注解，详见： https://blog.csdn.net/xupeng874395012/article/details/68946676
  */
 @Entity
-@Data
+@Data @Builder @NoArgsConstructor @AllArgsConstructor
 @ApiModel(description = "示例实体")
 public class HelloWorld {
 
@@ -42,44 +49,11 @@ public class HelloWorld {
     @Pattern(regexp="\\d{11}" , message = "手机号格式不正确")
     private String phoneNum;
 
-    public HelloWorld() {
-    }
-
-    public HelloWorld(String name) {
-        this.name = name;
-    }
-
-
-    public HelloWorld(String name, String phoneNum) {
-        this.name = name;
-        this.phoneNum = phoneNum;
-    }
-
     /**
-     * @return id
+     * 枚举类示例
+     * 有限范围的分类请用枚举；
      */
-    public Integer getId() {
-        return id;
-    }
+    @Column(name = "type")
+    private EType type;
 
-    /**
-     * @param id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
 }

@@ -42,6 +42,7 @@ flyway:
 
 mybatis:
   type-aliases-package: com.tangly.entity #指定bean所在包
+  type-handlers-package: com.tangly.handler
   mapperLocations: classpath*:mapper/*.xml      #指定映射文件
   configuration:
     map-underscore-to-camel-case: true

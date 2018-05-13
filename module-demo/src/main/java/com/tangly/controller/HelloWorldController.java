@@ -29,7 +29,7 @@ import java.util.List;
 
 /**
  * date: 2018/1/2 17:29 <br/>
- *
+ * 【@Api @ApiOperation @ApiImplicitParam】 是SwaggerUI的接口文档注解，详见： https://blog.csdn.net/xupeng874395012/article/details/68946676
  * @author tangly
  * @since JDK 1.7
  */

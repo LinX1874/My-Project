@@ -1,7 +1,5 @@
 package com.tangly.shiro.jwt;
 
-import com.tangly.entity.SysPermission;
-import com.tangly.entity.SysRole;
 import com.tangly.entity.UserAuth;
 import com.tangly.service.IUserAuthService;
 import lombok.extern.slf4j.Slf4j;
@@ -45,20 +43,20 @@ public class JWTRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
 
-        List<String> permissions = new ArrayList();
-        if(!ObjectUtils.isEmpty(userAuth.getSysRoleList())){
-            for(SysRole role : userAuth.getSysRoleList()){
-                simpleAuthorizationInfo.addRole(role.getRole());
-                if(!ObjectUtils.isEmpty( role.getSysPermissionList())){
-                    for(SysPermission pms : role.getSysPermissionList()){
-                        if(!ObjectUtils.isEmpty(pms)){
-                            permissions.add(pms.getName());
-                        }
-                    }
-                }
-            }
-        }
-        simpleAuthorizationInfo.addStringPermissions(permissions);
+//        List<String> permissions = new ArrayList();
+//        if(!ObjectUtils.isEmpty(userAuth.getSysRoleList())){
+//            for(SysRole role : userAuth.getSysRoleList()){
+//                simpleAuthorizationInfo.addRole(role.getRole());
+//                if(!ObjectUtils.isEmpty( role.getSysPermissionList())){
+//                    for(SysPermission pms : role.getSysPermissionList()){
+//                        if(!ObjectUtils.isEmpty(pms)){
+//                            permissions.add(pms.getName());
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        simpleAuthorizationInfo.addStringPermissions(permissions);
         return simpleAuthorizationInfo;
 
     }

@@ -43,7 +43,7 @@ public class IHelloWorldServiceMockTest {
     @Rollback
     public void testGetHelloWorld() {
 
-        HelloWorld t = new HelloWorld("哈哈","123");
+        HelloWorld t = HelloWorld.builder().name("哈哈").phoneNum("138000138000").build();
 
         //当这个接口执行某个方法时令其返回某个特定对象
         when(iOtherService.someOtherMethod(1)).thenReturn(t);
@@ -54,7 +54,9 @@ public class IHelloWorldServiceMockTest {
 
         //调用HelloWorld模块的接口方法并测试是否异常
         iHelloWorldService.insert(helloWorld);
-        HelloWorld myHelloWorld = iHelloWorldService.selectOne(new HelloWorld("哈哈","123"));
+        HelloWorld myHelloWorld = iHelloWorldService.selectOne(
+                HelloWorld.builder().name("哈哈").phoneNum("138000138000").build()
+        );
         assertNotNull(myHelloWorld);
         System.out.println(myHelloWorld);
 
