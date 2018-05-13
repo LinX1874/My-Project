@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 所有的接口继承该类
- *
+ * 通用接口类
  * @author Administrator
  * @since JDK 1.7
  */

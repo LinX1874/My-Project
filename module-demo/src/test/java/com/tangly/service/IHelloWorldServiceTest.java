@@ -59,12 +59,12 @@ public class IHelloWorldServiceTest {
         Random r = new Random();
         for (int i = 1; i <= 20; i++) {
             iHelloWorldService.insert(
-                    HelloWorld.builder().name("测试名字"+String.valueOf(i)).phoneNum("13800138000").build()
+                    HelloWorld.builder().name("测试名字"+String.valueOf(i)).phoneNum("12345678901").build()
             );
         }
         Example example = new Example(HelloWorld.class);
         example.setOrderByClause("id DESC");
-        example.createCriteria().andEqualTo("phoneNum","13800138000");
+        example.createCriteria().andEqualTo("phoneNum","12345678901");
         List<HelloWorld> list = iHelloWorldService.selectByExample(example);
         Assert.assertEquals(list.size(),20);
         System.out.println(list);

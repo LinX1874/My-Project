@@ -4,7 +4,7 @@ import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
 
 /**
- * 继承自己的MyMapper
+ * 单表增删改查的丰富mapper扩展类
  * mapper类继承该类实现默认的mapper
  * @author
  * @since 2017-06-26 21:53

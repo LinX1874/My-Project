@@ -8,6 +8,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_nickname" jdbcType="VARCHAR" property="userNickname" />
     <result column="user_avatar" jdbcType="VARCHAR" property="userAvatar" />
-    <result column="user_sex" jdbcType="TINYINT" property="userSex" />
+    <result column="user_sex" jdbcType="TINYINT" javaType="com.tangly.enums.EUserSex" property="userSex" />
   </resultMap>
 </mapper>
