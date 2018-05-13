@@ -27,7 +27,7 @@
 
   <select id="getUserAuth" resultMap="UserAuthMap">
     SELECT ua.* ,
-    ui.id AS  ui_id, ui.user_avatar as ui_avatar , ui.user_nickname as ui_user_nickname , ui.user_sex as ui_user_sex
+    ui.id AS  ui_id, ui.user_avatar as ui_user_avatar , ui.user_nickname as ui_user_nickname , ui.user_sex as ui_user_sex
     FROM user_auth ua
     LEFT JOIN user_info ui ON ui.id = ua.user_info_id
     WHERE ua.login_account = #{loginAccount}

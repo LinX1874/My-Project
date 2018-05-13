@@ -1,10 +1,9 @@
 package com.tangly.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tangly.bean.ResponseBean;
 import com.tangly.entity.UserAuth;
-import com.tangly.entity.UserInfo;
 import com.tangly.service.IUserAuthService;
-import com.tangly.service.IUserInfoService;
 import com.tangly.shiro.jwt.JWTUtil;
 import com.tangly.util.PasswordHelper;
 import io.swagger.annotations.*;
@@ -18,12 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-
-//import com.tangly.config.shiro.jwt.JWTUtil;
-
 
 /**
  * @author tangly
@@ -35,9 +30,6 @@ public class SignController {
 
     @Autowired
     private IUserAuthService iUserAuthService;
-
-    @Autowired
-    private IUserInfoService iUserInfoService;
 
     @Autowired
     private PasswordHelper passwordHelper;
@@ -71,8 +63,11 @@ public class SignController {
             userAuth.setLastLoginIp(request.getRemoteAddr());
             userAuth.setLastLoginTryCount(0);
             iUserAuthService.updateByPrimaryKeySelective(userAuth);
-            //签发token
-            return new ResponseBean(200, "登录成功", token);
+
+            JSONObject json = new JSONObject();
+            json.put("token",token);
+            json.put("user",userAuth.getUserInfo());
+            return new ResponseBean(200, "登录成功", json);
         }
     }
 

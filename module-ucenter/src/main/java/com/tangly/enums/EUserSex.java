@@ -1,16 +1,16 @@
 package com.tangly.enums;
 
 import com.tangly.base.BaseEnum;
-import io.swagger.annotations.ApiModel;
 
 /**
  * 用户性别枚举类
+ * 枚举对象直接是中文，这是个大胆的尝试
  */
 public enum EUserSex implements BaseEnum {
 
-    FEMALE(0, "女"),
-    MALE(1, "男"),
-    OTHER(2, "保密");
+    女(0, "女"),
+    男(1, "男"),
+    保密(2, "保密");
 
     Integer value;
     String label;

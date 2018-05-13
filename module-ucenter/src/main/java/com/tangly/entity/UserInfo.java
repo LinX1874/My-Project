@@ -20,19 +20,21 @@ public class UserInfo {
      * 用户昵称
      */
     @Column(name = "user_nickname")
+    @ApiModelProperty(notes = "昵称")
     private String userNickname;
 
     /**
      * 用户头像
      */
     @Column(name = "user_avatar")
+    @ApiModelProperty(notes = "头像地址", example = "0")
     private String userAvatar;
 
     /**
      * 性别
      */
     @Column(name = "user_sex")
-    @ApiModelProperty(notes = "枚举类： 0：女 1 男 2：保密 - 传int不要传字符串", example = "0")
+    @ApiModelProperty(notes = "性别枚举类： 0：女 1 男 2：保密 - 传int不要传字符串", example = "0")
     private EUserSex userSex;
 
 }

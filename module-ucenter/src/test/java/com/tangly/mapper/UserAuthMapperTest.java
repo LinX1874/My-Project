@@ -20,7 +20,7 @@ public class UserAuthMapperTest {
     @Test
     public void getUserAuth() throws Exception {
 
-        UserAuth userAuth = userAuthMapper.getUserAuth("admin");
+        UserAuth userAuth = userAuthMapper.getUserAuth("testAccount");
         assertNotNull(userAuth);
         System.out.println(userAuth);
 
