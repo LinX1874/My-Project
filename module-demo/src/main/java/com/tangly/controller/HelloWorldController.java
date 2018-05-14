@@ -61,6 +61,7 @@ public class HelloWorldController {
     @ApiImplicitParam(name = "helloWorld", value = "id字段由服务端生成，前端不用传", required = true, dataType = "HelloWorld")
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "创建失败"),
+            @ApiResponse(code = 202, message = "格式不正确"),
             @ApiResponse(code = 200, message = "创建成功")
     })
     @PostMapping(value = "")
