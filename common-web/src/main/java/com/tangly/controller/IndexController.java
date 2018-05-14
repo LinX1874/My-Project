@@ -43,12 +43,6 @@ public class IndexController {
         return "logout";
     }
 
-    @ApiOperation(value = "跳转到WebSocket测试页面")
-    @GetMapping("/websocket")
-    public String websocket() {
-        return "websocket";
-    }
-
     @GetMapping(path = "/401")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody

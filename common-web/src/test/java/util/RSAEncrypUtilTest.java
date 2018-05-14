@@ -10,7 +10,7 @@ import static com.tangly.util.RSAEncrypUtil.RSAEncode;
 /**
  * date: 2018/5/10 13:55 <br/>
  *
- * @author Administrator
+ * @author tangly
  * @since JDK 1.7
  */
 public class RSAEncrypUtilTest {

@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * date: 2018/5/10 16:08 <br/>
  *
- * @author Administrator
+ * @author tangly
  * @since JDK 1.7
  */
 public class BaseServiceTest {

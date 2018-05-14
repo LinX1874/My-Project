@@ -1,17 +1,15 @@
 package com.tangly.service;
 
-import com.tangly.DemoApplication;
+import com.tangly.DemoSpringTest;
 import com.tangly.entity.HelloWorld;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -20,9 +18,7 @@ import static org.mockito.Mockito.when;
  * Mockito 隔离测试
  * @description https://www.tianmaying.com/tutorial/JunitForSpringBoot
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = DemoApplication.class)
-public class IHelloWorldServiceMockTest {
+public class IHelloWorldServiceMockDemoSpringTest extends DemoSpringTest {
 
     /**
      * 模拟注入一个其它模块的接口或任意对象
@@ -31,7 +27,7 @@ public class IHelloWorldServiceMockTest {
     private IOtherService iOtherService;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 

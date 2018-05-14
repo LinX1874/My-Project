@@ -1,16 +1,13 @@
 package com.tangly.service;
 
-import com.tangly.DemoApplication;
+import com.tangly.DemoSpringTest;
 import com.tangly.entity.HelloWorld;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
@@ -18,16 +15,12 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Junit单元测试
+ * 单元测试
  * @author tangly
  * @version 1.0
  * @since <pre>01/02/2018</pre>
  */
-// @RunWith 使JUnit使用Spring的测试支持 SpringRunner是SpringJUnit4ClassRunner的新名字
-@RunWith(SpringRunner.class)
-// 创建DemoApplication的上下文，并支持Springboot特性
-@SpringBootTest(classes = DemoApplication.class)
-public class IHelloWorldServiceTest {
+public class IHelloWorldServiceSpringTest extends DemoSpringTest {
 
     @Autowired
     private IHelloWorldService iHelloWorldService;

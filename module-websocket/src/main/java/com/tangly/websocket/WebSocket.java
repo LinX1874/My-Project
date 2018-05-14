@@ -1,4 +1,4 @@
-package com.tangly.config.websocket;
+package com.tangly.websocket;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;

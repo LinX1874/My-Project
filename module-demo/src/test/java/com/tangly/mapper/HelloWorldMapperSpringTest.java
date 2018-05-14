@@ -1,25 +1,19 @@
 package com.tangly.mapper;
 
-import com.tangly.DemoApplication;
+import com.tangly.DemoSpringTest;
 import com.tangly.entity.HelloWorld;
 import org.apache.shiro.util.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Transient;
 import java.util.List;
 
 /**
  * Created by tangly on 2018/4/15.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = DemoApplication.class)
-public class HelloWorldMapperTest {
+public class HelloWorldMapperSpringTest extends DemoSpringTest {
 
     @Test
     @Transactional
@@ -44,7 +38,7 @@ public class HelloWorldMapperTest {
 
         List<HelloWorld> helloWordlList = helloWorldMapper.selectAll();
         Assert.notNull(helloWordlList);
-        System.out.println("helloWorld:"+ helloWordlList);
+        System.out.println("helloWorld:" + helloWordlList);
     }
 
 }

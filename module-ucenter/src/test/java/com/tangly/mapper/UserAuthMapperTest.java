@@ -1,18 +1,12 @@
 package com.tangly.mapper;
 
-import com.tangly.UserCenterApplication;
+import com.tangly.UserCenterSpringTest;
 import com.tangly.entity.UserAuth;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertNotNull;
 
-import static org.junit.Assert.*;
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = UserCenterApplication.class)
-public class UserAuthMapperTest {
+public class UserAuthMapperTest extends UserCenterSpringTest {
 
     @Autowired
     private UserAuthMapper userAuthMapper;

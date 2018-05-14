@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * date: 2018/5/7 16:12 <br/>
  *
- * @author Administrator
+ * @author tangly
  * @since JDK 1.7
  */
 public class HelloWorldTest {

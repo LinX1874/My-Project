@@ -24,8 +24,8 @@
     </div>
 </div>
 
-<script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+<!--<script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>-->
+<!--<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/web-socket-js/1.0.0/web_socket.min.js"></script>
 <script>
     var stompClient = null;
@@ -47,7 +47,7 @@
             console.log("您的浏览器不支持WebSocket");
         } else {
             console.log("您的浏览器支持WebSocket");
-            var token = document.getElementById("token").code;
+            var token = document.getElementById("token").value;
             socket = new WebSocket("ws://localhost:8080/endpoint/" + token);
             console.log(socket);
             //打开事件
@@ -88,8 +88,8 @@
     }
 
     function send() {
-        var name = document.getElementById("name").code;
-        var to = document.getElementById("to").code;
+        var name = document.getElementById("name").value;
+        var to = document.getElementById("to").value;
         if (!socket) {
             alert('未连接!');
             return;
