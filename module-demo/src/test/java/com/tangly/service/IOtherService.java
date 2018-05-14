@@ -10,6 +10,6 @@ import com.tangly.entity.HelloWorld;
  */
 public interface IOtherService {
 
-    HelloWorld someOtherMethod(int parma);
+    HelloWorld someOtherMethod(int param);
 
 }

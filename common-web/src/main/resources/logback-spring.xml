@@ -8,6 +8,7 @@
         <withJansi>true</withJansi>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
@@ -78,6 +79,7 @@
             <!--<pattern>-->
             <!--{"timestamp":"%d{yyyy-MM-dd'T'HH:mm:ss.SSS}","thread":"%t","line":"%line","log_level":"%p","class_name":"%C;","msg":"%m%n", "caller":"%caller{1}"}-->
             <!--</pattern>-->
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
@@ -118,6 +120,7 @@
             <pattern>
                 {"timestamp":"%d{yyyy-MM-dd'T'HH:mm:ss.SSS}","thread":"%t","line":"%line","log_level":"%p","class_name":"%C;","msg":"%m%n", "caller":"%caller{1}"}
             </pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 

@@ -8,10 +8,7 @@ import com.tangly.entity.UserAuth;
 import com.tangly.entity.UserInfo;
 import com.tangly.service.IHelloWorldService;
 import com.tangly.util.ValidateUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -62,6 +59,10 @@ public class HelloWorldController {
 
     @ApiOperation(value = "创建HelloWorld实体", notes = "根据HelloWorld对象创建HelloWorld")
     @ApiImplicitParam(name = "helloWorld", value = "id字段由服务端生成，前端不用传", required = true, dataType = "HelloWorld")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "创建失败"),
+            @ApiResponse(code = 200, message = "创建成功")
+    })
     @PostMapping(value = "")
     public ResponseBean postHelloWorld(@RequestBody HelloWorld helloWorld) {
         ValidateUtil.validate(helloWorld);

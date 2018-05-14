@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  * 用注解形式的查询
+ * @author tangly
  */
 @Repository
 public interface HelloWorldMapper extends BaseMybatisMapper<HelloWorld> {

@@ -34,7 +34,7 @@ public class FileController {
     private String attachPath = "attach";
 
     @ApiOperation(value = "后台删除文件", notes = "传文件的相对路径")
-    @PostMapping
+    @DeleteMapping
     @ResponseBody
     public ResponseBean delete(@RequestParam("filename") String filename) throws IOException {
         return WebUploadUtil.deleteFile("." + filename);

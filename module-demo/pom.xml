@@ -13,6 +13,7 @@
     <artifactId>module-demo</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.tangly</groupId>
             <artifactId>common-web</artifactId>
@@ -38,11 +39,6 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-
-            <plugin>
-                 <groupId>org.springframework.boot</groupId>
-                 <artifactId>spring-boot-maven-plugin</artifactId>
-             </plugin>
 
             <plugin>
                 <groupId>org.mybatis.generator</groupId>

@@ -9,7 +9,6 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
 import springfox.documentation.service.Parameter;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -59,7 +58,7 @@ public class Swagger2Config {
     public Docket createRestApi() {
         System.out.println("http://localhost:8080" + pathMapping + "swagger-ui.html");
         ParameterBuilder tokenPar = new ParameterBuilder();
-        List<Parameter> pars = new ArrayList();
+        List<Parameter> pars = new ArrayList<>(1);
         //增加一个request的header参数 用于JWT校验
         tokenPar.name("Authorization").description("令牌").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
         pars.add(tokenPar.build());
@@ -76,7 +75,7 @@ public class Swagger2Config {
                 .title("XX项目API文档")
                 .description("RestFull风格API")
                 .termsOfServiceUrl("")
-                .contact(new Contact("MR.T", "http://mockmain.tk", "tlyong1992@hotmail.com"))
+//                .contact(new Contact("MR.T", "http://mockmain.tk", "tlyong1992@hotmail.com"))
                 .version(VERSION)
                 .build();
     }

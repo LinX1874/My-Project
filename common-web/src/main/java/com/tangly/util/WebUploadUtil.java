@@ -89,7 +89,7 @@ public class WebUploadUtil {
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
-                log.error("删除单个文件-> {}成功！",fileName);
+                log.info("删除单个文件-> {}成功！",fileName);
                 return ResponseBean.success("删除成功",null);
             } else {
                 log.error("删除单个文件-> {}失败！",fileName);

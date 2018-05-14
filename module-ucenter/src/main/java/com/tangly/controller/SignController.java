@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
@@ -65,8 +66,8 @@ public class SignController {
             iUserAuthService.updateByPrimaryKeySelective(userAuth);
 
             JSONObject json = new JSONObject();
-            json.put("token",token);
-            json.put("user",userAuth.getUserInfo());
+            json.put("token", token);
+            json.put("user", userAuth.getUserInfo());
             return new ResponseBean(200, "登录成功", json);
         }
     }
@@ -76,16 +77,20 @@ public class SignController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userAuth", value = "用户账号实体", required = true, dataType = "UserAuth")
     })
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "用户名存在"),
+            @ApiResponse(code = 200, message = "创建成功")
+    })
     public ResponseBean signUp(@RequestBody UserAuth userAuth) {
 
         log.info("用户 {} 尝试注册", userAuth.getLoginAccount());
 
         if (iUserAuthService.existUserName(userAuth.getLoginAccount())) {
-            return new ResponseBean(HttpStatus.OK.value(), "用户名已存在", "");
+            return new ResponseBean(HttpStatus.ACCEPTED.value(), "用户名已存在", "");
         }
         //创建账号信息
         iUserAuthService.registerUserAuth(userAuth);
-        return new ResponseBean(HttpStatus.ACCEPTED.value(), "注册成功", "");
+        return new ResponseBean(HttpStatus.OK.value(), "注册成功", "");
     }
 
 
