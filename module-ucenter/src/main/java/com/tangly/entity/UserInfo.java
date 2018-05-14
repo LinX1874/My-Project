@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * @author tanglye
+ */
 @Table(name = "user_info")
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class UserInfo {
@@ -20,14 +23,14 @@ public class UserInfo {
      * 用户昵称
      */
     @Column(name = "user_nickname")
-    @ApiModelProperty(notes = "昵称")
+    @ApiModelProperty(notes = "昵称" , example = "张三")
     private String userNickname;
 
     /**
      * 用户头像
      */
     @Column(name = "user_avatar")
-    @ApiModelProperty(notes = "头像地址", example = "0")
+    @ApiModelProperty(notes = "头像地址", example = "上传的头像地址")
     private String userAvatar;
 
     /**

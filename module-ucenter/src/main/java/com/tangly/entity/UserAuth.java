@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import javax.persistence.*;
+import java.util.Date;
 
 @Table(name = "user_auth")
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
@@ -52,12 +52,14 @@ public class UserAuth {
      * 登录账号
      */
     @Column(name = "login_account")
+    @ApiModelProperty(example = "test", notes = "登录账号")
     private String loginAccount;
 
     /**
      * 密码
      */
     @Column(name = "login_password")
+    @ApiModelProperty(example = "test", notes = "登录密码")
     private String loginPassword;
 
     /**
@@ -71,12 +73,14 @@ public class UserAuth {
      * 最后登录ip地址
      */
     @Column(name = "last_login_ip")
+    @ApiModelProperty(hidden = true)
     private String lastLoginIp;
 
     /**
      * 最后登录时间
      */
     @Column(name = "last_login_time")
+    @ApiModelProperty(hidden = true)
     private Date lastLoginTime;
 
     /**
