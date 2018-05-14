@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.UndeclaredThrowableException;
 
 /**
  * 全局处理Spring Boot的抛出异常。
@@ -71,6 +72,18 @@ public class RestControllerAdvisor {
         return new ResponseBean(HttpStatus.ACCEPTED.value(),e.getMessage(),null);
     }
 
+    /**
+     * 捕捉不知原因的异常(代理产生)
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(UndeclaredThrowableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseBean undeclaredThrowableException(Throwable ex) {
+        Throwable e = ex.getCause();
+        log.error("捕获其它异常 ",e);
+        return new ResponseBean(HttpStatus.BAD_REQUEST.value(), e.getMessage(), null);
+    }
 
     /**
      * 捕捉其余所有异常
