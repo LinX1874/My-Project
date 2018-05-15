@@ -15,7 +15,7 @@
         <!--需要打包的模块添加到此处的依赖-->
         <dependency>
             <groupId>com.tangly</groupId>
-            <artifactId>common-web</artifactId>
+            <artifactId>common-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

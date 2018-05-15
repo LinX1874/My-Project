@@ -24,7 +24,7 @@
     <modules>
         <module>module-admin</module>
         <module>common-parent</module>
-        <module>common-web</module>
+        <module>common-core</module>
         <module>module-demo</module>
         <module>module-ucenter</module>
         <module>production</module>
