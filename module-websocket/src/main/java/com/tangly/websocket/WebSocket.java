@@ -1,10 +1,14 @@
 package com.tangly.websocket;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.tangly.bean.ResponseBean;
+import com.tangly.service.IWebSocketService;
+import com.tangly.shiro.jwt.JWTUtil;
+import com.tangly.util.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +16,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.UUID;
 
 /**
  * @author tangly
@@ -22,16 +26,19 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Component
 @Scope("Prototype")
 public class WebSocket {
-    private static int onlineCount = 0;
-    private static CopyOnWriteArraySet<WebSocket> webSocketSet = new CopyOnWriteArraySet();
+
+    @Autowired
+    private IWebSocketService iWebSocketService = (IWebSocketService) SpringUtil.getBean(IWebSocketService.class);
 
     private String token;
 
-    public String getToken() {
-        return token;
-    }
-
     private Session session;
+
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
 
     /**
      * 连接建立成功调用的方法
@@ -40,15 +47,12 @@ public class WebSocket {
     public void onOpen(@PathParam("token") String token, Session session) {
         this.session = session;
         this.token = token;
-        webSocketSet.add(this);
-        addOnlineCount();
-        log.info("有新连接加入 {} ！当前在线人数为 {}", token, getOnlineCount());
-        try {
-            broadcastMessage(JSON.toJSONString(ResponseBean.success("有新连接加入 " + token + " ！当前在线人数为 " + getOnlineCount() + "", null)));
-            sendMessageToThis(JSON.toJSONString(ResponseBean.success("欢迎连接", null)));
-        } catch (IOException e) {
-            log.error("websocket IO异常");
+        this.username = JWTUtil.getUsername(token);
+        if (StringUtils.isEmpty(username)) {
+            this.username = "匿名用户" + UUID.randomUUID().toString();
         }
+        iWebSocketService.addWebSocket(this);
+        iWebSocketService.sendMessageTo(this.username, "welcome", JSON.toJSONString(ResponseBean.success("欢迎连接 【"+ this.username+"】", null)));
     }
 
     /**
@@ -56,9 +60,7 @@ public class WebSocket {
      */
     @OnClose
     public void onClose() {
-        webSocketSet.remove(this);
-        subOnlineCount();
-        log.info("有一连接关闭 {} ！当前在线人数为 {}", token, getOnlineCount());
+        iWebSocketService.removeWebSocket(this);
     }
 
     /**
@@ -68,22 +70,11 @@ public class WebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        log.info("来自客户端的消息:" + message);
-
         JSONObject json = (JSONObject) JSON.parse(message);
         String msg = JSON.toJSONString(ResponseBean.success(json.getString("msg"), null));
         String type = json.getString("type");
         String to = json.getString("to");
-        try {
-            if (StringUtils.isEmpty(to)) {
-                broadcastMessage(msg);
-            } else {
-                sendMessageToSomeOne(to, msg);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        iWebSocketService.sendMessageTo(to, type, msg);
     }
 
     /**
@@ -92,23 +83,8 @@ public class WebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        log.error("发生错误");
+        log.error("发生错误",error);
         error.printStackTrace();
-    }
-
-    public void sendMessageToSomeOne(String token, String message) throws IOException {
-
-        log.info("单独发送消息给客户端 {} : {} ", token, message);
-
-        for (WebSocket item : webSocketSet) {
-            try {
-                if (token.equals(item.getToken())) {
-                    item.sendMessageToThis(message);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -117,34 +93,15 @@ public class WebSocket {
      * @param message
      * @throws IOException
      */
-    public void sendMessageToThis(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
-    }
-
-
-    /**
-     * 广播消息
-     */
-    public static void broadcastMessage(String message) throws IOException {
-        log.info(message);
-        for (WebSocket item : webSocketSet) {
-            try {
-                item.sendMessageToThis(message);
-            } catch (IOException e) {
-                continue;
-            }
+    public int sendMessageToThis(String message) {
+        try {
+            this.session.getBasicRemote().sendText(message);
+            return 1;
+        } catch (IOException e) {
+            log.error("单发消息异常",e);
+            return 0;
         }
     }
 
-    public static synchronized int getOnlineCount() {
-        return onlineCount;
-    }
 
-    public static synchronized void addOnlineCount() {
-        WebSocket.onlineCount++;
-    }
-
-    public static synchronized void subOnlineCount() {
-        WebSocket.onlineCount--;
-    }
-}  
+}
