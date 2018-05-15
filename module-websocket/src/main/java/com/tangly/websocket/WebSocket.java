@@ -17,7 +17,6 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * @author tangly
@@ -50,7 +49,7 @@ public class WebSocket {
         this.token = token;
         this.username = JWTUtil.getUsername(token);
         if (StringUtils.isEmpty(username)) {
-            this.username = "匿名用户" + UUID.randomUUID().toString();
+            this.username = "匿名用户" + System.currentTimeMillis();
         }
         iWebSocketService.addWebSocket(this);
 
