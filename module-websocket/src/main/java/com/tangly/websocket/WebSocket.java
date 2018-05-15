@@ -52,7 +52,7 @@ public class WebSocket {
             this.username = "匿名用户" + UUID.randomUUID().toString();
         }
         iWebSocketService.addWebSocket(this);
-        iWebSocketService.sendMessageTo("SYSTEM", this.username, "welcome", JSON.toJSONString(ResponseBean.success("欢迎连接 【" + this.username + "】", null)));
+        iWebSocketService.sendMessageTo("系统", this.username, "welcome", JSON.toJSONString(ResponseBean.success("用户 [ " + this.username + " ] 欢迎连接 ", null)));
     }
 
     /**
@@ -89,13 +89,14 @@ public class WebSocket {
 
     /**
      * 给该WebSocket发送信息
-     *
+     * @param from
      * @param message
-     * @throws IOException
      */
-    public int sendMessageToThis(String message) {
+    public int sendMessageToThis(String from, String message) {
         try {
-            this.session.getBasicRemote().sendText(message);
+            JSONObject jsonObject = JSONObject.parseObject(message);
+            jsonObject.put("from",from);
+            this.session.getBasicRemote().sendText(jsonObject.toString());
             return 1;
         } catch (IOException e) {
             log.error("单发消息异常", e);

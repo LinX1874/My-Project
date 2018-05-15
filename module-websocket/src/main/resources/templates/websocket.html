@@ -62,7 +62,7 @@
                 var msgDom = document.getElementById("msg");
                 var html = msgDom.innerHTML;
                 var jsonObject = JSON.parse(ret.data);
-                msgDom.innerHTML = html + "<p>" + jsonObject.msg + "</p>";
+                msgDom.innerHTML = html + '<p> ' + jsObject.from + ' ' + jsonObject.msg + '</p>';
 //                document.getElementById("end").scrollIntoView();
                 var div = document.getElementById("result");
                 div.scrollTop = div.scrollHeight;

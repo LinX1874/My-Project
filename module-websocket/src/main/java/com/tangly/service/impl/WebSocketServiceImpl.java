@@ -35,7 +35,7 @@ public class WebSocketServiceImpl implements IWebSocketService {
         Set<Map.Entry<String, WebSocket>> entrySet = webSocketMap.entrySet();
         int successCount = 0;
         for (Map.Entry<String, WebSocket> entry : entrySet) {
-            successCount += entry.getValue().sendMessageToThis(msg);
+            successCount += entry.getValue().sendMessageToThis(from, msg);
         }
         return successCount;
     }
@@ -47,7 +47,7 @@ public class WebSocketServiceImpl implements IWebSocketService {
             return broadcastMessageToAll(from, msg);
         } else {
             WebSocket client = webSocketMap.get(to);
-            return client.sendMessageToThis(msg);
+            return client.sendMessageToThis(from, msg);
         }
     }
 
