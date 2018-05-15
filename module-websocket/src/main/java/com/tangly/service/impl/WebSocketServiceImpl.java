@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class WebSocketServiceImpl implements IWebSocketService {
 
     private static AtomicInteger onlineCount = new AtomicInteger(0);
-    private ConcurrentHashMap<String,WebSocket> webSocketMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, WebSocket> webSocketMap = new ConcurrentHashMap<>();
 
 
     @Override
@@ -31,20 +31,21 @@ public class WebSocketServiceImpl implements IWebSocketService {
     }
 
     @Override
-    public int broadcastMessageToAll(String msg) {
-        Set<Map.Entry<String,WebSocket>> entrySet = webSocketMap.entrySet();
+    public int broadcastMessageToAll(String from, String msg) {
+        Set<Map.Entry<String, WebSocket>> entrySet = webSocketMap.entrySet();
         int successCount = 0;
-        for(Map.Entry<String,WebSocket> entry : entrySet ){
-            successCount += sendMessageTo(entry.getValue().getUsername(),"broadcast",msg);
+        for (Map.Entry<String, WebSocket> entry : entrySet) {
+            successCount += entry.getValue().sendMessageToThis(msg);
         }
         return successCount;
     }
 
     @Override
-    public int sendMessageTo(String to, String type, String msg) {
-        if(StringUtils.isEmpty(to) || StringUtils.isEmpty(type)){
-            return broadcastMessageToAll(msg);
-        }else{
+    public int sendMessageTo(String from, String to, String type, String msg) {
+        log.info("WebSocket消息 from: {}  ; to: {} ; type: {} ; msg: {} ", from, to, type, msg);
+        if (StringUtils.isEmpty(to) || StringUtils.isEmpty(type)) {
+            return broadcastMessageToAll(from, msg);
+        } else {
             WebSocket client = webSocketMap.get(to);
             return client.sendMessageToThis(msg);
         }
@@ -52,7 +53,7 @@ public class WebSocketServiceImpl implements IWebSocketService {
 
     @Override
     public void addWebSocket(WebSocket webSocket) {
-        webSocketMap.put(webSocket.getUsername(),webSocket);
+        webSocketMap.put(webSocket.getUsername(), webSocket);
         onlineCount.addAndGet(1);
         log.info("有新连接加入 {} ！当前在线人数为 {}", webSocket.getUsername(), getOnlineCount());
     }

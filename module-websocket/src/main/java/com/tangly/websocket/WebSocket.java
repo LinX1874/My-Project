@@ -52,7 +52,7 @@ public class WebSocket {
             this.username = "匿名用户" + UUID.randomUUID().toString();
         }
         iWebSocketService.addWebSocket(this);
-        iWebSocketService.sendMessageTo(this.username, "welcome", JSON.toJSONString(ResponseBean.success("欢迎连接 【"+ this.username+"】", null)));
+        iWebSocketService.sendMessageTo("SYSTEM", this.username, "welcome", JSON.toJSONString(ResponseBean.success("欢迎连接 【" + this.username + "】", null)));
     }
 
     /**
@@ -74,7 +74,7 @@ public class WebSocket {
         String msg = JSON.toJSONString(ResponseBean.success(json.getString("msg"), null));
         String type = json.getString("type");
         String to = json.getString("to");
-        iWebSocketService.sendMessageTo(to, type, msg);
+        iWebSocketService.sendMessageTo(this.getUsername(), to, type, msg);
     }
 
     /**
@@ -83,7 +83,7 @@ public class WebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-        log.error("发生错误",error);
+        log.error("发生错误", error);
         error.printStackTrace();
     }
 
@@ -98,7 +98,7 @@ public class WebSocket {
             this.session.getBasicRemote().sendText(message);
             return 1;
         } catch (IOException e) {
-            log.error("单发消息异常",e);
+            log.error("单发消息异常", e);
             return 0;
         }
     }

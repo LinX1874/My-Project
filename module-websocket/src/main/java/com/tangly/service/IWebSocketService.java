@@ -18,20 +18,21 @@ public interface IWebSocketService {
 
     /**
      * 广播群发
+     * @param from
      * @param msg
      * @return
      */
-    int broadcastMessageToAll(String msg);
+    int broadcastMessageToAll(String from ,String msg);
 
     /**
      * 单发消息
-     *
+     * @param from
      * @param to
      * @param type
      * @param msg
      * @return
      */
-    int sendMessageTo(String to, String type, String msg);
+    int sendMessageTo(String from ,String to, String type, String msg);
 
     /**
      * 添加一个WebSocket客户端
