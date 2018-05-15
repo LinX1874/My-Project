@@ -1,8 +1,8 @@
 package com.tangly.websocket;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.tangly.bean.ResponseBean;
+import com.tangly.entity.MessageBean;
+import com.tangly.enums.EMessageType;
 import com.tangly.service.IWebSocketService;
 import com.tangly.shiro.jwt.JWTUtil;
 import com.tangly.util.SpringUtil;
@@ -16,6 +16,7 @@ import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -52,7 +53,14 @@ public class WebSocket {
             this.username = "匿名用户" + UUID.randomUUID().toString();
         }
         iWebSocketService.addWebSocket(this);
-        iWebSocketService.sendMessageTo("系统", this.username, "welcome", JSON.toJSONString(ResponseBean.success("用户 [ " + this.username + " ] 欢迎连接 ", null)));
+
+        MessageBean messageBean = new MessageBean();
+        messageBean.setFrom("系统");
+        messageBean.setType(EMessageType.SYSTEM);
+        messageBean.setSendTime(new Date());
+        messageBean.setTo(this.getUsername());
+        messageBean.setMsg("用户 [ " + this.username + " ] 欢迎连接 ");
+        iWebSocketService.deliverMessage(messageBean);
     }
 
     /**
@@ -70,11 +78,10 @@ public class WebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        JSONObject json = (JSONObject) JSON.parse(message);
-        String msg = JSON.toJSONString(ResponseBean.success(json.getString("msg"), null));
-        String type = json.getString("type");
-        String to = json.getString("to");
-        iWebSocketService.sendMessageTo(this.getUsername(), to, type, msg);
+        MessageBean messageBean = JSONObject.parseObject(message,MessageBean.class);
+        messageBean.setSendTime(new Date());
+        messageBean.setFrom(this.getUsername());
+        iWebSocketService.deliverMessage(messageBean);
     }
 
     /**
@@ -89,14 +96,11 @@ public class WebSocket {
 
     /**
      * 给该WebSocket发送信息
-     * @param from
-     * @param message
+     * @param messageBean
      */
-    public int sendMessageToThis(String from, String message) {
+    public int sendMessageToThis(MessageBean messageBean) {
         try {
-            JSONObject jsonObject = JSONObject.parseObject(message);
-            jsonObject.put("from",from);
-            this.session.getBasicRemote().sendText(jsonObject.toString());
+            this.session.getBasicRemote().sendText(JSONObject.toJSONString(messageBean));
             return 1;
         } catch (IOException e) {
             log.error("单发消息异常", e);

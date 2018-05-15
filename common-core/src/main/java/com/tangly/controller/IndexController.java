@@ -3,11 +3,12 @@ package com.tangly.controller;
 import com.tangly.bean.ResponseBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  *
@@ -26,21 +27,6 @@ public class IndexController {
     @ApiOperation(value = "访问首页")
     public String index() {
         return "index";
-    }
-
-
-    @ApiOperation(value = "跳转到登录页面")
-    @GetMapping(value = "login")
-    public String login() {
-        Subject s = SecurityUtils.getSubject();
-        return s.isRemembered() || s.isAuthenticated() ? "redirect:/" : "login";
-    }
-
-    @ApiOperation(value = "跳转到登出页面")
-    @GetMapping(value = "logout")
-    public String logout() {
-        SecurityUtils.getSubject().logout();
-        return "logout";
     }
 
     @GetMapping(path = "/401")

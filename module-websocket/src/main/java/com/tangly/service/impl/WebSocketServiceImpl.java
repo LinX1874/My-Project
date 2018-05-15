@@ -1,10 +1,12 @@
 package com.tangly.service.impl;
 
+import com.tangly.entity.MessageBean;
+import com.tangly.enums.EMessageType;
 import com.tangly.service.IWebSocketService;
 import com.tangly.websocket.WebSocket;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -31,23 +33,29 @@ public class WebSocketServiceImpl implements IWebSocketService {
     }
 
     @Override
-    public int broadcastMessageToAll(String from, String msg) {
+    public int broadcastMessageToAll(MessageBean messageBean) {
         Set<Map.Entry<String, WebSocket>> entrySet = webSocketMap.entrySet();
         int successCount = 0;
         for (Map.Entry<String, WebSocket> entry : entrySet) {
-            successCount += entry.getValue().sendMessageToThis(from, msg);
+            successCount += entry.getValue().sendMessageToThis(messageBean);
         }
         return successCount;
     }
 
     @Override
-    public int sendMessageTo(String from, String to, String type, String msg) {
-        log.info("WebSocket消息 from: {}  ; to: {} ; type: {} ; msg: {} ", from, to, type, msg);
-        if (StringUtils.isEmpty(to) || StringUtils.isEmpty(type)) {
-            return broadcastMessageToAll(from, msg);
+    public int deliverMessage(MessageBean messageBean) {
+        log.info("WebSocket消息 {} ", messageBean);
+        if (messageBean.getType().equals(EMessageType.BROADCAST)) {
+            return broadcastMessageToAll(messageBean);
         } else {
-            WebSocket client = webSocketMap.get(to);
-            return client.sendMessageToThis(from, msg);
+            WebSocket client = webSocketMap.get(messageBean.getTo());
+            if (ObjectUtils.isEmpty(client)) {
+                //接收方不在线
+                client = webSocketMap.get(messageBean.getFrom());
+                return client.sendMessageToThis(new MessageBean("系统", client.getUsername(), "对方不在线", EMessageType.SYSTEM));
+            } else {
+                return client.sendMessageToThis(messageBean);
+            }
         }
     }
 

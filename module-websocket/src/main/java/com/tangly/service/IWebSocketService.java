@@ -1,5 +1,6 @@
 package com.tangly.service;
 
+import com.tangly.entity.MessageBean;
 import com.tangly.websocket.WebSocket;
 
 /**
@@ -18,21 +19,17 @@ public interface IWebSocketService {
 
     /**
      * 广播群发
-     * @param from
-     * @param msg
+     * @param messageBean
      * @return
      */
-    int broadcastMessageToAll(String from ,String msg);
+    int broadcastMessageToAll(MessageBean messageBean);
 
     /**
-     * 单发消息
-     * @param from
-     * @param to
-     * @param type
-     * @param msg
+     * 处理消息
+     * @param messageBean
      * @return
      */
-    int sendMessageTo(String from ,String to, String type, String msg);
+    int deliverMessage(MessageBean messageBean);
 
     /**
      * 添加一个WebSocket客户端
