@@ -6,13 +6,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
 /**
- * <p>
- *
- * @author
- * @jira TODO
- * @date 2017年5月16日
- * @modified TODO
- * @see 1.5.0
+ * @author tangly
+ * @date 2018年5月16日
+ * 在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象
  */
 @Component
 public class SpringUtil implements ApplicationContextAware {
@@ -23,11 +19,7 @@ public class SpringUtil implements ApplicationContextAware {
         if (SpringUtil.applicationContext == null) {
             SpringUtil.applicationContext = applicationContext;
         }
-        System.out.println("---------------------------------------------------------------------");
-        System.out.println("---------------------------------------------------------------------");
-        System.out.println("---------------com.ben.util.spring.SpringUtil------------------------------------------------------");
-        System.out.println("========ApplicationContext配置成功,在普通类可以通过调用SpringUtils.getAppContext()获取applicationContext对象,applicationContext=" + SpringUtil.applicationContext + "========");
-        System.out.println("---------------------------------------------------------------------");
+        System.out.println("========ApplicationContext配置成功,applicationContext=" + SpringUtil.applicationContext + "========");
 
     }
 
