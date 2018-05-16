@@ -1,16 +1,14 @@
 package com.tangly.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.tangly.bean.ErrorResponse;
 import com.tangly.bean.PageRequest;
 import com.tangly.entity.HelloWorld;
 import com.tangly.entity.UserAuth;
 import com.tangly.entity.UserInfo;
 import com.tangly.service.IHelloWorldService;
 import com.tangly.util.ValidateUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.AuthorizationException;
@@ -29,7 +27,6 @@ import java.util.List;
 /**
  * date: 2018/1/2 17:29 <br/>
  * 【@Api @ApiOperation @ApiImplicitParam】 是SwaggerUI的接口文档注解，详见： https://blog.csdn.net/xupeng874395012/article/details/68946676
- * @ApiResponses({@ApiResponse(code = 500, message = "服务器内部错误", response = ErrorResponse.class)})
  * @author tangly
  * @since JDK 1.7
  */
@@ -37,6 +34,7 @@ import java.util.List;
 @RequestMapping(value = "/helloworld")
 @Slf4j
 @Api(description = "示例_HelloWorld_增删改查_Demo")
+@ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
 public class HelloWorldController {
 
     @Autowired

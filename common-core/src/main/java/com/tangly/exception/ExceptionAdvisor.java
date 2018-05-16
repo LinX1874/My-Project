@@ -3,7 +3,6 @@ package com.tangly.exception;
 import com.alibaba.fastjson.JSONException;
 import com.tangly.bean.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.ShiroException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
@@ -32,7 +31,7 @@ public class ExceptionAdvisor {
     @ExceptionHandler(UnauthenticatedException.class)
     public ErrorResponse handleUnauthenticated(UnauthenticatedException e) {
         log.error(e.getMessage());
-        return new ErrorResponse(401, "请先登录", e);
+        return new ErrorResponse(10003, "请先登录", e);
     }
 
     /**
@@ -43,27 +42,14 @@ public class ExceptionAdvisor {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthorizedException.class)
     public ErrorResponse handle403(UnauthorizedException e) {
-        return new ErrorResponse(403, "无权访问", e);
-    }
-
-
-    /**
-     * 捕捉shiro其它异常
-     *
-     * @param e
-     * @return
-     */
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(ShiroException.class)
-    public ErrorResponse handle401(ShiroException e) {
-        log.error("shiro", e);
-        return new ErrorResponse(401, e.getMessage(), e);
+        return new ErrorResponse(10003, "无权访问", e);
     }
 
     @ExceptionHandler(JSONException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse jsonException(JSONException e) {
         log.error("参数格式错误", e);
-        return new ErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.value(), "参数校验异常", e.getMessage());
+        return new ErrorResponse(10002, "参数校验异常", e);
     }
 
     /**
@@ -73,8 +59,9 @@ public class ExceptionAdvisor {
      * @return
      */
     @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse illegalArgument(IllegalArgumentException e) {
-        return new ErrorResponse(HttpStatus.ACCEPTED.value(), e.getMessage(), e);
+        return new ErrorResponse(10002, e.getMessage(), e);
     }
 
     /**
@@ -84,10 +71,11 @@ public class ExceptionAdvisor {
      * @return
      */
     @ExceptionHandler(NormalException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse normalException(NormalException e) {
-        return new ErrorResponse(HttpStatus.CONFLICT.value(), e.getMessage(), e);
+        log.error("业务异常: {}",e.getMessage());
+        return new ErrorResponse(e.getErrorCode(), e.getMessage(), e);
     }
-
 
     /**
      * 捕捉不知原因的异常(代理产生)
@@ -96,11 +84,11 @@ public class ExceptionAdvisor {
      * @return
      */
     @ExceptionHandler(UndeclaredThrowableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse undeclaredThrowableException(Throwable ex) {
         Throwable e = ex.getCause();
         log.error("捕获其它异常 ", e);
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage(), ex);
+        return new ErrorResponse(10000, e.getMessage(), ex);
     }
 
     /**
@@ -111,17 +99,10 @@ public class ExceptionAdvisor {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse globalException(HttpServletRequest request, Throwable ex) {
         log.error("捕获全局异常 ", ex);
-        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), ex);
+        return new ErrorResponse(10000, ex.getMessage(), ex);
     }
 
-    private HttpStatus getStatus(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        if (statusCode == null) {
-            return HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return HttpStatus.valueOf(statusCode);
-    }
 }

@@ -29,7 +29,7 @@ import java.io.IOException;
 @Slf4j
 @Api(description = "文件模块")
 @RequestMapping(value = "/file")
-@ApiResponses({@ApiResponse(code = 500, message = "服务器内部错误", response = ErrorResponse.class)})
+@ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
 public class FileController {
 
     private String attachPath = "attach";

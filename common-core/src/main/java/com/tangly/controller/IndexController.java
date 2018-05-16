@@ -3,6 +3,8 @@ package com.tangly.controller;
 import com.tangly.bean.ErrorResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Controller
 @Api(description = "页面跳转")
+@ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
 public class IndexController {
 
     /**
@@ -34,6 +37,6 @@ public class IndexController {
     @ResponseBody
     @ApiOperation(value = "访问无权限跳转")
     public ErrorResponse unauthorized(@RequestParam(required = false) String err) {
-        return new ErrorResponse(401, "无权访问或登录过期", err);
+        return new ErrorResponse(10003, "无权访问或登录过期", err);
     }
 }

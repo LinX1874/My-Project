@@ -1,6 +1,7 @@
 package com.tangly.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.tangly.bean.ErrorResponse;
 import com.tangly.entity.UserAuth;
 import com.tangly.exception.NormalException;
 import com.tangly.service.IUserAuthService;
@@ -24,6 +25,7 @@ import java.util.Date;
 @RestController
 @Api(description = "登录授权控制器")
 @Slf4j
+@ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
 public class SignController {
 
     @Autowired
@@ -78,10 +80,6 @@ public class SignController {
     @PostMapping("/signUp")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userAuth", value = "用户账号实体", required = true, dataType = "UserAuth")
-    })
-    @ApiResponses(value = {
-            @ApiResponse(code = 202, message = "用户名存在"),
-            @ApiResponse(code = 200, message = "创建成功")
     })
     public void signUp(@RequestBody UserAuth userAuth) throws NormalException {
 
