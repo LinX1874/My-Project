@@ -1,6 +1,6 @@
 package com.tangly.util;
 
-import com.tangly.bean.ResponseBean;
+import com.tangly.exception.NormalException;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,20 +84,20 @@ public class WebUploadUtil {
      * @param fileName
      * @return
      */
-    public static ResponseBean deleteFile(String fileName) {
+    public static String deleteFile(String fileName) throws NormalException {
         File file = new File(fileName);
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
                 log.info("删除单个文件-> {}成功！",fileName);
-                return ResponseBean.success("删除成功",null);
+                return "删除成功";
             } else {
                 log.error("删除单个文件-> {}失败！",fileName);
-                return ResponseBean.success("删除失败",null);
+                throw new NormalException("删除失败");
             }
         } else {
             log.info("删除单个文件失败-> {}不存在！",fileName);
-            return ResponseBean.success("删除失败","文件不存在");
+            throw new NormalException("删除失败,文件不存在");
 
         }
     }

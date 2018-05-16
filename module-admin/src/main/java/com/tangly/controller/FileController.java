@@ -1,9 +1,13 @@
 package com.tangly.controller;
 
-import com.tangly.bean.ResponseBean;
+import com.tangly.bean.ErrorResponse;
+import com.tangly.exception.NormalException;
+import com.tangly.response.FileUploadResponse;
 import com.tangly.util.WebUploadUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -14,10 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * date: 2018/1/17 16:37 <br/>
@@ -29,6 +29,7 @@ import java.util.Map;
 @Slf4j
 @Api(description = "文件模块")
 @RequestMapping(value = "/file")
+@ApiResponses({@ApiResponse(code = 500, message = "服务器内部错误", response = ErrorResponse.class)})
 public class FileController {
 
     private String attachPath = "attach";
@@ -36,7 +37,7 @@ public class FileController {
     @ApiOperation(value = "后台删除文件", notes = "传文件的相对路径")
     @DeleteMapping
     @ResponseBody
-    public ResponseBean delete(@RequestParam("filename") String filename) throws IOException {
+    public String delete(@RequestParam("filename") String filename) throws NormalException {
         return WebUploadUtil.deleteFile("." + filename);
     }
 
@@ -52,22 +53,18 @@ public class FileController {
     @ApiOperation(value = "后台上传文件", notes = "后台上传文件")
     @PostMapping(value = "/{type}")
     @ResponseBody
-    public ResponseBean uploadFile(
+    public FileUploadResponse uploadFile(
             @PathVariable("type") String type,
             @RequestParam("file") MultipartFile file,
             @RequestParam(value = "path", defaultValue = "/") String path,
-            HttpServletResponse response, HttpServletRequest request) throws IOException {
+            HttpServletResponse response, HttpServletRequest request) {
 
         response.setContentType("text/html; charset=UTF-8");
 
-        List<Map<String, String>> rt = new ArrayList<>();
-
-        rt.add(upload(type, path, file));
-
-        return ResponseBean.success(rt);
+        return upload(type, path, file);
     }
 
-    private Map upload(String type, String path, MultipartFile file) {
+    private FileUploadResponse upload(String type, String path, MultipartFile file) {
         //创建文件名称
         String uuid = WebUploadUtil.createFileName();
         //扩展名
@@ -96,15 +93,8 @@ public class FileController {
             WebUploadUtil.createThumbnail(localFile, thumbnailName);
         }
 
-        Map<String, String> rt = new HashMap<>(5);
-        rt.put("uuid", uuid);
-        rt.put("path", attachPath);
-        rt.put("ext", fileExt);
-        rt.put("url", "/" + savePath);
-        rt.put("s_url", "/" + thumbnailName);
-
         log.info("上传的文件地址为 fileName={}", savePath);
-        return rt;
+        return new FileUploadResponse(uuid,attachPath,fileExt,"/" + savePath,"/" + thumbnailName);
     }
 
 

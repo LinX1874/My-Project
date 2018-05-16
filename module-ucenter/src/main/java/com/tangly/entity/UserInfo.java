@@ -37,7 +37,7 @@ public class UserInfo {
      * 性别
      */
     @Column(name = "user_sex")
-    @ApiModelProperty(notes = "性别枚举类： 0：女 1 男 2：保密 - 传int不要传字符串", example = "0")
+    @ApiModelProperty(notes = "性别")
     private EUserSex userSex;
 
 }

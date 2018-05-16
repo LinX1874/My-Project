@@ -4,13 +4,13 @@ import com.tangly.base.BaseEnum;
 
 /**
  * 用户性别枚举类
- * 枚举对象直接是中文，这是个大胆的尝试
+ * @author tangly
  */
 public enum EUserSex implements BaseEnum {
 
-    女(0, "女"),
-    男(1, "男"),
-    保密(2, "保密");
+    FEMALE(0, "女"),
+    MALE(1, "男"),
+    UNKNOW(2, "保密");
 
     Integer value;
     String label;

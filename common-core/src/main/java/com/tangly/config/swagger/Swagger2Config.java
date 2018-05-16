@@ -3,13 +3,12 @@ package com.tangly.config.swagger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
+import org.springframework.web.bind.annotation.RequestMethod;
+import springfox.documentation.builders.*;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Parameter;
+import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -62,12 +61,24 @@ public class Swagger2Config {
         //增加一个request的header参数 用于JWT校验
         tokenPar.name("Authorization").description("令牌").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
         pars.add(tokenPar.build());
+
+        List<ResponseMessage> responseMessageList = new ArrayList<>();
+        responseMessageList.add(new ResponseMessageBuilder().code(404).message("找不到资源").responseModel(new ModelRef("ResponseBean")).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(409).message("业务逻辑异常").responseModel(new ModelRef("ResponseBean")).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(422).message("参数校验异常").responseModel(new ModelRef("ResponseBean")).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(500).message("服务器内部错误").responseModel(new ModelRef("ResponseBean")).build());
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(SWAGGER_SCAN_BASE_PACKAGE))
                 .paths(PathSelectors.any())
                 .build()
                 .globalOperationParameters(pars)
+                .globalResponseMessage(RequestMethod.GET, responseMessageList)
+                .globalResponseMessage(RequestMethod.POST, responseMessageList)
+                .globalResponseMessage(RequestMethod.PUT, responseMessageList)
+                .globalResponseMessage(RequestMethod.DELETE, responseMessageList)
+                .globalResponseMessage(RequestMethod.PATCH, responseMessageList)
                 .apiInfo(apiInfo());
     }
     private ApiInfo apiInfo() {

@@ -1,5 +1,6 @@
 package com.tangly.entity;
 
+import com.tangly.enums.ELoginType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,10 @@ import java.util.Date;
  * @author tangly
  */
 @Table(name = "user_auth")
-@Data @Builder @NoArgsConstructor @AllArgsConstructor
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(description = "用户账号实体")
 public class UserAuth {
     /**
@@ -41,15 +45,15 @@ public class UserAuth {
      * 是否可用
      */
     @Column(name = "auth_available")
-    @ApiModelProperty(notes = "是否可用")
+    @ApiModelProperty(notes = "是否可用", example = "true")
     private Boolean authAvailable;
 
     /**
      * 账号类型，用户名密码
      */
     @Column(name = "login_type")
-    @ApiModelProperty(example = "username", notes = "账号类型，默认填username，其它根据账号类型可以填写phone，wexin，qq等等")
-    private String loginType;
+    @ApiModelProperty( notes = "登录类型枚举，表示登录的途径方式")
+    private ELoginType loginType;
 
     /**
      * 登录账号

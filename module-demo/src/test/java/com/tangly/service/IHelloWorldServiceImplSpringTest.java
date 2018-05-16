@@ -38,10 +38,10 @@ public class IHelloWorldServiceImplSpringTest extends DemoSpringTest {
     @Rollback
     public void saveAndGet() {
         iHelloWorldService.insert(
-                HelloWorld.builder().name("测试名字").phoneNum("13800138000").build()
+                HelloWorld.builder().name("测试名字").phone("13800138000").build()
         );
         HelloWorld helloWorld ;
-        helloWorld = iHelloWorldService.selectOne(HelloWorld.builder().name("测试名字").phoneNum("13800138000").build());
+        helloWorld = iHelloWorldService.selectOne(HelloWorld.builder().name("测试名字").phone("13800138000").build());
         Assert.assertNotNull(helloWorld);
         System.out.println(helloWorld);
     }
@@ -52,7 +52,7 @@ public class IHelloWorldServiceImplSpringTest extends DemoSpringTest {
         Random r = new Random();
         for (int i = 1; i <= 20; i++) {
             iHelloWorldService.insert(
-                    HelloWorld.builder().name("测试名字"+String.valueOf(i)).phoneNum("12345678901").build()
+                    HelloWorld.builder().name("测试名字"+String.valueOf(i)).phone("12345678901").build()
             );
         }
         Example example = new Example(HelloWorld.class);

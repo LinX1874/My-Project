@@ -1,9 +1,9 @@
 package com.tangly.exception;
 
 /**
- * @Author:高键城
+ * @author: tangly
  * @time：
- * @Discription：
+ * @Discription: 请求次数超出上限异常
  */
 public class RequestLimitException extends Exception {
     private static final long serialVersionUID = 1364225358754654702L;
