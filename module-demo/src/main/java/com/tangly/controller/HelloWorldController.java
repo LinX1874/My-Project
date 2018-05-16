@@ -33,7 +33,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/helloworld")
 @Slf4j
-@Api(description = "示例_HelloWorld_增删改查_Demo")
+@Api(description = "示例_HelloWorld_增删改查_Demo", tags = "DEMO演示模块")
 @ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
 public class HelloWorldController {
 

@@ -181,6 +181,11 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
+                    <!-- 这里是新添加的-->
+                    <compilerArguments>
+                        <!-- 对应jar放置在项目中的位置-->
+                        <extdirs>lib</extdirs>
+                    </compilerArguments>
                 </configuration>
             </plugin>
         </plugins>

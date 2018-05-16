@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @since JDK 1.7
  */
 @Controller
-@Api(description = "webSocket演示页面")
+@Api(description = "演示页面跳转地址",tags = "Socket通讯模块")
 public class WebsocketController {
 
     @ApiOperation(value = "跳转到WebSocket测试页面")

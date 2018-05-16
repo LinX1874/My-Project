@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @date 2018/4/17
  */
 @Controller
-@Api(description = "页面跳转")
+@Api(description = "页面跳转",hidden = true)
 @ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
 public class IndexController {
 

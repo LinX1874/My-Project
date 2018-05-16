@@ -13,17 +13,14 @@
     <artifactId>module-demo</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.tangly</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.tangly</groupId>
             <artifactId>module-ucenter</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
