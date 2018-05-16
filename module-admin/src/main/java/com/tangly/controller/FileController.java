@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 @Controller
 @Slf4j
-@Api(description = "文件模块")
+@Api(description = "文件控制器",tags = "后台管理模块")
 @RequestMapping(value = "/file")
 @ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
 public class FileController {

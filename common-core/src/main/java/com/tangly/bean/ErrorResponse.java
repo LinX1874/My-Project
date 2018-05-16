@@ -1,16 +1,16 @@
 package com.tangly.bean;
 
+import com.tangly.config.mvc.WebConfig;
+import com.tangly.util.SpringUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 /**
  * @author tangly
  */
 @Data
 @ApiModel(description = "错误信息返回对象")
-@Component
 public class ErrorResponse {
 
     /**
@@ -35,19 +35,14 @@ public class ErrorResponse {
     @ApiModelProperty(name = "messageDebug", value = "详细异常定位,开发过程才会显示", example = "详细异常定位,开发过程才会显示")
     private Object messageDebug;
 
-    @org.springframework.beans.factory.annotation.Value("&{spring.profiles.active}")
-    @ApiModelProperty(hidden = true)
-    private String active;
-
-    public ErrorResponse() {
-    }
+    private static WebConfig webConfig = SpringUtil.getBean(WebConfig.class);
 
     public ErrorResponse(int errorCode, String errorText, Object messageDebug) {
         this.errorCode = errorCode;
         this.errorText = errorText;
-        if("dev".equals(active)){
-            this.messageDebug = messageDebug;
-        }
+//        if("dev".equals(webConfig.getActive())){
+//            this.messageDebug = messageDebug;
+//        }
     }
 
 }

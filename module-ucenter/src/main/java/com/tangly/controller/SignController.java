@@ -23,7 +23,7 @@ import java.util.Date;
  * @author tangly
  */
 @RestController
-@Api(description = "登录授权控制器")
+@Api(description = "登录授权控制器",tags = "用户中心模块")
 @Slf4j
 @ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
 public class SignController {
