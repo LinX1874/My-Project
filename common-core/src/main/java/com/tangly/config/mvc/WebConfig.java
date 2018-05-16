@@ -30,6 +30,13 @@ import java.util.concurrent.TimeUnit;
 @EnableSwagger2
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+    @Value(value = "${spring.profiles.active}")
+    private String active;
+
+    public String getActive() {
+        return active;
+    }
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/api/v2/api-docs", "/v2/api-docs");

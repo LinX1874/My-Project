@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -45,16 +46,16 @@ public class ExceptionAdvisor {
         return new ErrorResponse(10003, "无权访问", e);
     }
 
-    @ExceptionHandler(JSONException.class)
+
+
+    @ExceptionHandler({JSONException.class,HttpMessageNotReadableException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ErrorResponse jsonException(JSONException e) {
-        log.error("参数格式错误", e);
-        return new ErrorResponse(10002, "参数校验异常", e);
+    public ErrorResponse jsonException(Exception e) {
+        return new ErrorResponse(10002, "参数格式错误", e);
     }
 
     /**
      * 捕获所有参数校验异常
-     *
      * @param e
      * @return
      */
