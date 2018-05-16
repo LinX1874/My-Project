@@ -1,9 +1,9 @@
 package com.tangly.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.tangly.bean.ErrorResponse;
 import com.tangly.entity.UserAuth;
 import com.tangly.exception.NormalException;
+import com.tangly.response.SignInResponse;
 import com.tangly.service.IUserAuthService;
 import com.tangly.shiro.jwt.JWTUtil;
 import com.tangly.util.PasswordHelper;
@@ -45,7 +45,7 @@ public class SignController {
             @ApiImplicitParam(name = "password", value = "密码", paramType = "query", required = true)
     })
     @PostMapping("/signIn")
-    public String signIn(
+    public SignInResponse signIn(
             @RequestParam("username") String username,
             @RequestParam("password") String password, HttpServletRequest request
     ) throws NormalException {
@@ -68,11 +68,7 @@ public class SignController {
             userAuth.setLastLoginIp(request.getRemoteAddr());
             userAuth.setLastLoginTryCount(0);
             iUserAuthService.updateByPrimaryKeySelective(userAuth);
-
-            JSONObject json = new JSONObject();
-            json.put("token", token);
-            json.put("user", userAuth.getUserInfo());
-            return token;
+            return new SignInResponse(token,userAuth.getUserInfo());
         }
     }
 
@@ -81,7 +77,7 @@ public class SignController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userAuth", value = "用户账号实体", required = true, dataType = "UserAuth")
     })
-    public void signUp(@RequestBody UserAuth userAuth) throws NormalException {
+    public String signUp(@RequestBody UserAuth userAuth) throws NormalException {
 
         log.info("用户 {} 尝试注册", userAuth.getLoginAccount());
 
@@ -89,7 +85,11 @@ public class SignController {
             throw new NormalException("用户名已存在");
         }
         //创建账号信息
-        iUserAuthService.registerUserAuth(userAuth);
+        if (iUserAuthService.registerUserAuth(userAuth) ==1 ){
+            return "注册成功";
+        }else{
+            throw new NormalException("注册失败");
+        }
     }
 
 

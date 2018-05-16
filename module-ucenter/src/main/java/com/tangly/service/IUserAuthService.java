@@ -23,7 +23,7 @@ public interface IUserAuthService extends IBaseService<UserAuth> {
      * 注册用户
      * @param userAuth
      */
-    void registerUserAuth(UserAuth userAuth);
+    int registerUserAuth(UserAuth userAuth);
 
     /**
      * 检验用户名是否存在

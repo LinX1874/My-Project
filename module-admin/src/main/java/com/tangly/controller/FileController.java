@@ -94,7 +94,7 @@ public class FileController {
         }
 
         log.info("上传的文件地址为 fileName={}", savePath);
-        return new FileUploadResponse(uuid,attachPath,fileExt,"/" + savePath,"/" + thumbnailName);
+        return new FileUploadResponse(fileExt,"/" + savePath,"/" + thumbnailName);
     }
 
 

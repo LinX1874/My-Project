@@ -43,7 +43,7 @@ public class UserAuthServiceImpl extends BaseServiceImpl<UserAuth> implements IU
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void registerUserAuth(UserAuth userAuth) {
+    public int registerUserAuth(UserAuth userAuth) {
         passwordHelper.encryptNewPassForUser(userAuth);
 
         UserInfo ui = iUserInfoService.insert(userAuth.getUserInfo());
@@ -52,7 +52,7 @@ public class UserAuthServiceImpl extends BaseServiceImpl<UserAuth> implements IU
         userAuth.setUserInfoId(ui.getId());
         userAuth.setCreateTime(new Date());
 
-        userAuthMapper.insertSelective(userAuth);
+        return  userAuthMapper.insertSelective(userAuth);
     }
 
     @Override
