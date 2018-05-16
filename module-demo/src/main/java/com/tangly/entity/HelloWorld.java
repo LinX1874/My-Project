@@ -1,5 +1,6 @@
 package com.tangly.entity;
 
+import com.tangly.enums.EHelloWorldSex;
 import com.tangly.enums.EType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,15 +17,18 @@ import javax.validation.constraints.Size;
 /**
  *
  * 【@Data @Builder @NoArgsConstructor @AllArgsConstructor】 所有的实体entity请加入这几个注解；
- * 以上注解说明详见： 【Lombok注解】  https://blog.csdn.net/sunsfan/article/details/53542374
- * 在方法中不要写setter/getter/toString等冗余代码，而使用lombok的该注解代替
+ *  以上注解说明详见： 【Lombok注解】  https://blog.csdn.net/sunsfan/article/details/53542374
+ *  在方法中不要写setter/getter/toString等冗余代码，而使用lombok的注解代替
  *
  * 【@Builder @NoArgsConstructor @AllArgsConstructor】请尽量避免使用对象的 new XX() 构造方法， 而使用Lombok注解@Builder的构造器方式
  * 【@ApiModel @ApiModelProperty】 是SwaggerUI的接口文档注解，详见： https://blog.csdn.net/xupeng874395012/article/details/68946676
+ *
+ *  @author tangly
  */
 @Entity
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 @ApiModel(description = "示例实体")
+@Table(name = "hello_world")
 public class HelloWorld {
 
     @Id
@@ -35,6 +39,30 @@ public class HelloWorld {
      */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    /**
+     * 性别 枚举
+     */
+    @ApiModelProperty(value = "性别")
+    private EHelloWorldSex sex;
+
+    /**
+     * 枚举类示例
+     * 有限范围的分类请用枚举；
+     */
+    @Column(name = "type")
+    private EType type;
+
+    /**
+     * 邮件
+     */
+    @ApiModelProperty(value = "邮件")
+    private String email;
+
+    /**
+     * 地址
+     */
+    private String address;
 
     @ApiModelProperty(value = "名称")
     /**
@@ -47,13 +75,7 @@ public class HelloWorld {
 
     @ApiModelProperty(value = "手机号")
     @Pattern(regexp="\\d{11}" , message = "手机号格式不正确")
-    private String phoneNum;
+    private String phone;
 
-    /**
-     * 枚举类示例
-     * 有限范围的分类请用枚举；
-     */
-    @Column(name = "type")
-    private EType type;
 
 }

@@ -8,7 +8,7 @@ import org.junit.Test;
  * @author tangly
  * @since JDK 1.7
  */
-public class BaseServiceTest {
+public class BaseServiceImplTest {
 
 
     @Test

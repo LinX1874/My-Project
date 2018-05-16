@@ -20,7 +20,7 @@ import java.util.Random;
  * @version 1.0
  * @since <pre>01/02/2018</pre>
  */
-public class IHelloWorldServiceSpringTest extends DemoSpringTest {
+public class IHelloWorldServiceImplSpringTest extends DemoSpringTest {
 
     @Autowired
     private IHelloWorldService iHelloWorldService;

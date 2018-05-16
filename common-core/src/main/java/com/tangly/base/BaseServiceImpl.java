@@ -5,7 +5,6 @@ import com.github.pagehelper.PageInfo;
 import com.tangly.bean.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
-import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Iterator;
@@ -18,10 +17,10 @@ import java.util.Map;
  * @param <T>
  * @author tangly
  */
-public abstract class BaseService<T> implements IBaseInterface<T> {
+public abstract class BaseServiceImpl<T> implements IBaseService<T> {
 
     @Autowired
-    protected Mapper<T> mapper;
+    protected BaseMybatisMapper<T> mapper;
 
     /**
      * 保存一个实体，null的属性也会保存，不会使用数据库默认值
@@ -45,6 +44,16 @@ public abstract class BaseService<T> implements IBaseInterface<T> {
     public T insertSelective(T t) {
         mapper.insertSelective(t);
         return t;
+    }
+
+    /**
+     * 批量插入实体列表，性能高于for循环单独insert数据
+     * @param t 实体列表
+     * @return
+     */
+    @Override
+    public int insertList(List<T> t) {
+        return mapper.insertList(t);
     }
 
     /**

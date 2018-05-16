@@ -1,6 +1,6 @@
 package com.tangly.service.impl;
 
-import com.tangly.base.BaseService;
+import com.tangly.base.BaseServiceImpl;
 import com.tangly.entity.UserAuth;
 import com.tangly.entity.UserInfo;
 import com.tangly.mapper.UserAuthMapper;
@@ -22,7 +22,7 @@ import java.util.Date;
  * @since JDK 1.7
  */
 @Service
-public class UserAuthService extends BaseService<UserAuth> implements IUserAuthService {
+public class UserAuthServiceImpl extends BaseServiceImpl<UserAuth> implements IUserAuthService {
 
     @Autowired
     UserAuthMapper userAuthMapper;

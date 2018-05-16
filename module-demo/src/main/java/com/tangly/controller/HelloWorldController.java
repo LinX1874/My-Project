@@ -69,7 +69,7 @@ public class HelloWorldController {
         ValidateUtil.validate(helloWorld);
         helloWorld.setId(null);
         iHelloWorldService.insert(helloWorld);
-        return new ResponseBean(HttpStatus.CREATED.value(), "成功", helloWorld);
+        return ResponseBean.success("创建成功",helloWorld);
     }
 
     @ApiOperation(value = "更新完整HelloWorld实体", notes = "请传完整的helloworld对象")

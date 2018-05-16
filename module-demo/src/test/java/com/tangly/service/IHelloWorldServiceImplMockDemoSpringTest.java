@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
  * Mockito 隔离测试
  * @description https://www.tianmaying.com/tutorial/JunitForSpringBoot
  */
-public class IHelloWorldServiceMockDemoSpringTest extends DemoSpringTest {
+public class IHelloWorldServiceImplMockDemoSpringTest extends DemoSpringTest {
 
     /**
      * 模拟注入一个其它模块的接口或任意对象

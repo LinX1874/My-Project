@@ -1,7 +1,7 @@
 package com.tangly.base;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.util.ReflectionUtils;
+
 import java.lang.reflect.Field;
 
 /**
@@ -26,11 +26,11 @@ public interface BaseEnum {
         }
     }
 
-    @JsonValue
     default String getLabel() {
         Field field = ReflectionUtils.findField(this.getClass(), DEFAULT_LABEL_NAME);
-        if (field == null)
+        if (field == null){
             return null;
+        }
         try {
             field.setAccessible(true);
             return field.get(this).toString();

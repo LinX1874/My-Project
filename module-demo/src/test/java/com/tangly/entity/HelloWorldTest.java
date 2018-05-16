@@ -1,6 +1,5 @@
 package com.tangly.entity;
 
-import com.tangly.entity.HelloWorld;
 import com.tangly.util.ValidateUtil;
 import org.junit.Test;
 
@@ -16,9 +15,12 @@ public class HelloWorldTest {
      * 预期抛出参数非法异常
      */
     @Test(expected = IllegalArgumentException.class)
-    public void testValidate(){
+    public void testValidate() {
 
-        HelloWorld helloWorld2 = HelloWorld.builder().name("姓名").phoneNum("123456").build();
+        HelloWorld helloWorld2 = HelloWorld.builder()
+                .name("姓名")
+                .phone("123456")
+                .build();
         ValidateUtil.validate(helloWorld2);
 
     }

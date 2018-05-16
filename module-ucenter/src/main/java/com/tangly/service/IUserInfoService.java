@@ -1,6 +1,6 @@
 package com.tangly.service;
 
-import com.tangly.base.IBaseInterface;
+import com.tangly.base.IBaseService;
 import com.tangly.entity.UserInfo;
 
 /**
@@ -9,6 +9,6 @@ import com.tangly.entity.UserInfo;
  * @author tangly
  * @since JDK 1.7
  */
-public interface IUserInfoService extends IBaseInterface<UserInfo> {
+public interface IUserInfoService extends IBaseService<UserInfo> {
 
 }

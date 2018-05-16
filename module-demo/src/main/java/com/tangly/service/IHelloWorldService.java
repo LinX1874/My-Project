@@ -1,6 +1,6 @@
 package com.tangly.service;
 
-import com.tangly.base.IBaseInterface;
+import com.tangly.base.IBaseService;
 import com.tangly.entity.HelloWorld;
 
 /**
@@ -9,7 +9,7 @@ import com.tangly.entity.HelloWorld;
  * @author tangly
  * @since JDK 1.7
  */
-public interface IHelloWorldService extends IBaseInterface<HelloWorld>{
+public interface IHelloWorldService extends IBaseService<HelloWorld> {
 
 
 }

@@ -12,21 +12,28 @@ import java.util.List;
  * @author tangly
  * @since JDK 1.7
  */
-public interface IBaseInterface<T> {
+public interface IBaseService<T> {
 
     /**
      * 保存一个实体，null的属性也会保存，不会使用数据库默认值
      * @param t
-     * @return
+     * @return 影响的记录数
      */
     T insert(T t);
 
     /**
      * 保存一个实体，null的属性不会保存，会使用数据库默认值
      * @param t
-     * @return
+     * @return 影响的记录数
      */
     T insertSelective(T t);
+
+    /**
+     * 批量插入实体列表，性能高于for循环单独insert数据
+     * @param t 实体列表
+     * @return 影响的记录数
+     */
+    int insertList(List<T> t);
 
     /**
      * 根据主键字段进行删除，方法参数必须包含完整的主键属性

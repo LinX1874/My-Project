@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * @author tangly
+ */
 @Table(name = "user_auth")
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 @ApiModel(description = "用户账号实体")

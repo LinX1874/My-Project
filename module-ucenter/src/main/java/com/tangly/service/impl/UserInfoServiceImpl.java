@@ -1,6 +1,6 @@
 package com.tangly.service.impl;
 
-import com.tangly.base.BaseService;
+import com.tangly.base.BaseServiceImpl;
 import com.tangly.entity.UserInfo;
 import com.tangly.service.IUserInfoService;
 import org.springframework.stereotype.Service;
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
  * @since JDK 1.7
  */
 @Service
-public class UserInfoService extends BaseService<UserInfo> implements IUserInfoService {
+public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo> implements IUserInfoService {
 }
