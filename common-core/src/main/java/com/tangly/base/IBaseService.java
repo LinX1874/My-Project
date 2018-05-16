@@ -2,6 +2,7 @@ package com.tangly.base;
 
 import com.github.pagehelper.PageInfo;
 import com.tangly.bean.PageRequest;
+import com.tangly.bean.PageResponse;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -95,9 +96,10 @@ public interface IBaseService<T> {
     /**
      * 根据实体中的属性值进行查询，查询条件使用等号
      * @param pageRequest
+     * @param clazz 查找的类型
      * @return
      */
-    PageInfo<T> selectByPage(PageRequest pageRequest);
+    PageResponse<T> selectByPage(PageRequest pageRequest, Class clazz);
 
     /**
      * 根据实体中的属性值进行查询，查询条件使用等号

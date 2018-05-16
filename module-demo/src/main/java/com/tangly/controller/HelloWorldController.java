@@ -3,6 +3,7 @@ package com.tangly.controller;
 import com.github.pagehelper.PageInfo;
 import com.tangly.bean.ErrorResponse;
 import com.tangly.bean.PageRequest;
+import com.tangly.bean.PageResponse;
 import com.tangly.entity.HelloWorld;
 import com.tangly.entity.UserAuth;
 import com.tangly.entity.UserInfo;
@@ -27,6 +28,7 @@ import java.util.List;
 /**
  * date: 2018/1/2 17:29 <br/>
  * 【@Api @ApiOperation @ApiImplicitParam】 是SwaggerUI的接口文档注解，详见： https://blog.csdn.net/xupeng874395012/article/details/68946676
+ *
  * @author tangly
  * @since JDK 1.7
  */
@@ -51,8 +53,8 @@ public class HelloWorldController {
 
     @ApiOperation(value = "分页获取获取HelloWorld列表", notes = "备注内容：记得传参数")
     @PostMapping(value = {"/page"})
-    public PageInfo<HelloWorld> geHelloWorldPage(@RequestBody PageRequest pageRequest) {
-        PageInfo<HelloWorld> pageInfo = iHelloWorldService.selectByPage(new PageRequest(HelloWorld.class,pageRequest));
+    public PageResponse<HelloWorld> geHelloWorldPage(@RequestBody PageRequest pageRequest) {
+        PageResponse<HelloWorld> pageInfo = iHelloWorldService.selectByPage(pageRequest, HelloWorld.class);
         return pageInfo;
     }
 
@@ -84,7 +86,7 @@ public class HelloWorldController {
     @PatchMapping()
     public HelloWorld patchHelloWorld(@RequestBody HelloWorld helloWorld) {
         iHelloWorldService.updateByPrimaryKeySelective(helloWorld);
-        return  helloWorld;
+        return helloWorld;
     }
 
     @ApiOperation(value = "获取HelloWorld详细信息", notes = "根据url的id来获取HelloWorld详细信息")

@@ -1,10 +1,10 @@
 package com.tangly.bean;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 
 /**
@@ -14,39 +14,38 @@ import java.util.Map;
  * @since JDK 1.7
  */
 @Data
-@ApiModel(description = "分页查询请求类：\n" +
-        " orderBys 表示根据哪些字段排序例如 {id:'asc',name:'desc'} 表示根据id 正序排列并且根据name逆向排序; \n" +
-        " searchParams 表示根据哪些字段查询例如 {name:'张三',phone_num:'139%'} 表示 name等于张三 并且 phone是以139开头的。 " )
-public class PageRequest implements Serializable {
+@ApiModel(description = "分页查询请求类")
+public class PageRequest{
 
     /***
      * 当前页码
      */
+    @ApiModelProperty(value = "页码",example = "1")
     private int pageNum;
 
     /**
      * 页面大小
      */
+    @ApiModelProperty(value = "页面大小",example = "10")
     private int pageSize;
 
     /**
      * 排序条件
      */
+    @ApiModelProperty(value = "排序条件 例：{id:'asc',name:'desc'} 表示根据id 正序排列并根据name逆向排序;")
     private Map<String,Object> orderBys;
 
     /**
      * 搜索条件
      */
+    @ApiModelProperty(value ="字段过滤条件 例：name:'张三',phone_num:'139%'} 表示 name等于张三 且 phone是以139开头的。")
     private Map<String, Object> searchParams;
 
-    @ApiModelProperty(hidden = true)
-    private Class clazz;
+    public PageRequest(){
+        super();
+    }
 
-    public PageRequest(){super();}
-
-
-    public PageRequest(Class clazz,PageRequest request) {
-        this.clazz = clazz;
+    public PageRequest(PageRequest request) {
         this.pageNum = request.getPageNum();
         this.pageSize = request.getPageSize();
         this.orderBys = request.getOrderBys();

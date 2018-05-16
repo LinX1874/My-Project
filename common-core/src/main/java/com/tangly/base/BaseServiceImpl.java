@@ -1,12 +1,13 @@
 package com.tangly.base;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.tangly.bean.PageRequest;
+import com.tangly.bean.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
-
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -143,6 +144,14 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
         return mapper.selectAll();
     }
 
+    public static Type[] getParameterizedTypes(Object object) {
+        Type superclassType = object.getClass().getGenericSuperclass();
+        if (!ParameterizedType.class.isAssignableFrom(superclassType.getClass())) {
+            return null;
+        }
+        return ((ParameterizedType)superclassType).getActualTypeArguments();
+    }
+
     /**
      * 根据实体中的属性值进行查询，查询条件使用等号
      *
@@ -150,14 +159,14 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
      * @return
      */
     @Override
-    public PageInfo<T> selectByPage(PageRequest pageRequest) {
+    public PageResponse<T> selectByPage(PageRequest pageRequest , Class clazz) {
 
         int pageNum = pageRequest.getPageNum();
         int pageSize = pageRequest.getPageSize();
         Map<String, Object> orderBys = pageRequest.getOrderBys();
         Map<String, Object> searchParams = pageRequest.getSearchParams();
 
-        Example example = new Example(pageRequest.getClazz());
+        Example example = new Example(clazz);
 
         if (!ObjectUtils.isEmpty(orderBys)) {
             Iterator<Map.Entry<String, Object>> sortIterator = orderBys.entrySet().iterator();
@@ -189,7 +198,7 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
 
         List<T> list = mapper.selectByExample(example);
 
-        return new PageInfo<T>(list);
+        return new PageResponse<>(list);
     }
 
     /**
