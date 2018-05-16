@@ -6,12 +6,12 @@ import com.tangly.bean.PageRequest;
 import com.tangly.entity.HelloWorld;
 import com.tangly.entity.UserAuth;
 import com.tangly.entity.UserInfo;
+import com.tangly.exception.NormalException;
 import com.tangly.service.IHelloWorldService;
 import com.tangly.util.ValidateUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -108,7 +108,7 @@ public class HelloWorldController {
 
     @GetMapping("/}auth/check_current_user")
     @ApiOperation(value = "查看当前登录的用户信息")
-    public UserInfo checkCurrentUser() {
+    public UserInfo checkCurrentUser() throws NormalException {
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             UserAuth userAuth = (UserAuth) subject.getPrincipal();
@@ -118,7 +118,7 @@ public class HelloWorldController {
             UserInfo userInfo = userAuth.getUserInfo();
             return userInfo;
         } else {
-            throw new AuthorizationException("未登录用户");
+            throw new NormalException("未登录用户");
         }
     }
 

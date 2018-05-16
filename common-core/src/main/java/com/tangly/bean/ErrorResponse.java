@@ -40,9 +40,9 @@ public class ErrorResponse {
     public ErrorResponse(int errorCode, String errorText, Object messageDebug) {
         this.errorCode = errorCode;
         this.errorText = errorText;
-//        if("dev".equals(webConfig.getActive())){
-//            this.messageDebug = messageDebug;
-//        }
+        if("dev".equals(webConfig.getActive())){
+            this.messageDebug = messageDebug;
+        }
     }
 
 }
