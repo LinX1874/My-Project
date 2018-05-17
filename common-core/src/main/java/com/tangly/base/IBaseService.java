@@ -1,6 +1,5 @@
 package com.tangly.base;
 
-import com.github.pagehelper.PageInfo;
 import com.tangly.bean.PageRequest;
 import com.tangly.bean.PageResponse;
 import tk.mybatis.mapper.entity.Example;
@@ -9,7 +8,7 @@ import java.util.List;
 
 /**
  * 所有的接口继承该类
- * 通用接口类
+ * 通用接口类，默认接口继承已获得默认的接口方法
  * @author tangly
  * @since JDK 1.7
  */

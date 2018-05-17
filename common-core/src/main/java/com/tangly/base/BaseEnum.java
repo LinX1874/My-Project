@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 
 /**
  * @author tangly
- * 所有的枚举类实现该接口
+ * 枚举类实现该接口，以实现mybatis中的枚举键值映射为枚举类
  */
 public interface BaseEnum {
 

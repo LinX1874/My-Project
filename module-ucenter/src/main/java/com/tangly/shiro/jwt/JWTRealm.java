@@ -1,6 +1,11 @@
 package com.tangly.shiro.jwt;
 
+import com.tangly.entity.SysPermission;
+import com.tangly.entity.SysRole;
 import com.tangly.entity.UserAuth;
+import com.tangly.entity.UserInfo;
+import com.tangly.service.ISysPermissionService;
+import com.tangly.service.ISysRoleService;
 import com.tangly.service.IUserAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
@@ -28,6 +33,12 @@ public class JWTRealm extends AuthorizingRealm {
     @Autowired
     private IUserAuthService iUserAuthService;
 
+    @Autowired
+    private ISysPermissionService iSysPermissionService;
+
+    @Autowired
+    private ISysRoleService iSysRoleService;
+
     @Override
     public boolean supports(AuthenticationToken token) {
         return token instanceof JWTToken;
@@ -39,24 +50,26 @@ public class JWTRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         UserAuth userAuth = (UserAuth) principals.getPrimaryPrincipal();
-
+        UserInfo userInfo = userAuth.getUserInfo();
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
 
-//        List<String> permissions = new ArrayList();
-//        if(!ObjectUtils.isEmpty(userAuth.getSysRoleList())){
-//            for(SysRole role : userAuth.getSysRoleList()){
-//                simpleAuthorizationInfo.addRole(role.getRole());
-//                if(!ObjectUtils.isEmpty( role.getSysPermissionList())){
-//                    for(SysPermission pms : role.getSysPermissionList()){
-//                        if(!ObjectUtils.isEmpty(pms)){
-//                            permissions.add(pms.getName());
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        simpleAuthorizationInfo.addStringPermissions(permissions);
+        List<String> permissions = new ArrayList<>();
+
+        List<SysPermission> sysPermissions = iSysPermissionService.getPermissionList(userInfo.getId());
+        List<SysRole> sysRoles = iSysRoleService.getSysRole(userInfo.getId());
+
+        for(SysRole role : sysRoles){
+            simpleAuthorizationInfo.addRole(role.getRole());
+        }
+
+        for(SysPermission pms : sysPermissions){
+            if(!ObjectUtils.isEmpty(pms)){
+                permissions.add(pms.getName());
+            }
+        }
+
+        simpleAuthorizationInfo.addStringPermissions(permissions);
         return simpleAuthorizationInfo;
 
     }

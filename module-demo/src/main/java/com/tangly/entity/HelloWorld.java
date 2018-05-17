@@ -31,13 +31,13 @@ import javax.validation.constraints.Size;
 @Table(name = "hello_world")
 public class HelloWorld {
 
-    @Id
-    @ApiModelProperty(value = "主键",required = true)
     /**
      *  配置自增 @GeneratedValue，
-     *  实体insert后可以立即用getId方法获得
+     *  实体insert后可以立即用getId方法获得生成后的主键ID
      */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(value = "主键",required = true)
+    @Id
     private Integer id;
 
     /**
@@ -62,15 +62,16 @@ public class HelloWorld {
     /**
      * 地址
      */
+    @ApiModelProperty(value = "邮件")
     private String address;
 
-    @ApiModelProperty(value = "名称")
     /**
      * @NotNull @Pattern @Min @Max 是javax.validation.contrains校验框架中的注解；
      *
      */
     @NotNull(message = "名字不能为空")
     @Size(min = 2, max = 14 , message = "名字长度限制为2-14")
+    @ApiModelProperty(value = "名称")
     private String name;
 
     @ApiModelProperty(value = "手机号")

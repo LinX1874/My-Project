@@ -6,9 +6,8 @@ import tk.mybatis.mapper.common.special.InsertListMapper;
 
 /**
  * 单表增删改查的丰富mapper扩展类
- * mapper类继承该类实现默认的mapper
- *
- * @author
+ * mapper类继承该类实现默认的增删改查批量插入
+ * @author tangly
  * @since 2017-06-26 21:53
  */
 public interface BaseMybatisMapper<T> extends Mapper<T>, MySqlMapper<T>, InsertListMapper<T> {

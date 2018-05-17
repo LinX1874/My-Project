@@ -9,6 +9,8 @@ import com.tangly.shiro.jwt.JWTUtil;
 import com.tangly.util.GetPlaceUtil;
 import com.tangly.util.PasswordHelper;
 import com.tangly.util.TimeUtil;
+import com.tangly.util.gif.Captcha;
+import com.tangly.util.gif.GifCaptcha;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +22,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 /**
@@ -140,6 +144,33 @@ public class SignController {
             return "退出登录";
         } else {
             return "无需登出";
+        }
+    }
+
+    /**
+     * 获取验证码（Gif版本）
+     * @param response
+     */
+    @ApiOperation(value = "获取图片验证码,这个接口会直接返回图片，文档测试工具中无法模拟")
+    @RequestMapping(value="getGifCode",method=RequestMethod.GET)
+    public void getGifCode(HttpServletResponse response, HttpServletRequest request){
+        try {
+            response.setHeader("Pragma", "No-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setDateHeader("Expires", 0);
+            response.setContentType("image/gif");
+            /**
+             * gif格式动画验证码
+             * 宽，高，位数。
+             */
+            Captcha captcha = new GifCaptcha(146,33,4);
+            //输出
+            captcha.out(response.getOutputStream());
+            HttpSession session = request.getSession(true);
+            //存入Session
+            session.setAttribute("_code",captcha.text().toLowerCase());
+        } catch (Exception e) {
+            log.error("获取验证码异常：{}",e.getMessage());
         }
     }
 }

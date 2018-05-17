@@ -13,13 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 通用Service
- *
+ * 通用ServiceImple
+ * Service实现类都继承该方法，以获得常用的怎删改查默认实现
  * @param <T>
  * @author tangly
  */
 public abstract class BaseServiceImpl<T> implements IBaseService<T> {
 
+    /**
+     * 继承了BaseServiceImpl类后，可以直接使用该通用mapper类实现单表的所有操作。
+     */
     @Autowired
     protected BaseMybatisMapper<T> mapper;
 
