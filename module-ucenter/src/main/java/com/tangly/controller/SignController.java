@@ -6,9 +6,12 @@ import com.tangly.exception.NormalException;
 import com.tangly.response.SignInResponse;
 import com.tangly.service.IUserAuthService;
 import com.tangly.shiro.jwt.JWTUtil;
+import com.tangly.util.GetPlaceUtil;
 import com.tangly.util.PasswordHelper;
+import com.tangly.util.TimeUtil;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
@@ -23,9 +26,9 @@ import java.util.Date;
  * @author tangly
  */
 @RestController
-@Api(description = "登录授权控制器",tags = "用户中心模块")
+@Api(description = "登录授权控制器", tags = "用户中心模块")
 @Slf4j
-@ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
+@ApiResponses({@ApiResponse(code = 206, message = "业务逻辑无法执行", response = ErrorResponse.class)})
 public class SignController {
 
     @Autowired
@@ -68,7 +71,12 @@ public class SignController {
             userAuth.setLastLoginIp(request.getRemoteAddr());
             userAuth.setLastLoginTryCount(0);
             iUserAuthService.updateByPrimaryKeySelective(userAuth);
-            return new SignInResponse(token,userAuth.getUserInfo());
+            String lastLoginTime = TimeUtil.formatTime(userAuth.getLastLoginTime(), "yyyy年MM月dd日 HH:mm:ss");
+            String loginPlace = userAuth.getLastLoginIp();
+            if (StringUtils.isNotEmpty(loginPlace)) {
+               loginPlace = GetPlaceUtil.getPlace(loginPlace) + "(" + loginPlace + ")";
+            }
+            return new SignInResponse(token, lastLoginTime, loginPlace, userAuth.getUserInfo());
         }
     }
 
@@ -85,9 +93,9 @@ public class SignController {
             throw new NormalException("用户名已存在");
         }
         //创建账号信息
-        if (iUserAuthService.registerUserAuth(userAuth) ==1 ){
+        if (iUserAuthService.registerUserAuth(userAuth) == 1) {
             return "注册成功";
-        }else{
+        } else {
             throw new NormalException("注册失败");
         }
     }

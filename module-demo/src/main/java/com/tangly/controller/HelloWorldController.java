@@ -1,6 +1,5 @@
 package com.tangly.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.tangly.bean.ErrorResponse;
 import com.tangly.bean.PageRequest;
 import com.tangly.bean.PageResponse;
@@ -36,7 +35,7 @@ import java.util.List;
 @RequestMapping(value = "/helloworld")
 @Slf4j
 @Api(description = "示例_HelloWorld_增删改查_Demo", tags = "DEMO演示模块")
-@ApiResponses({@ApiResponse(code = 409, message = "业务逻辑异常", response = ErrorResponse.class)})
+@ApiResponses({@ApiResponse(code = 206, message = "业务逻辑无法执行", response = ErrorResponse.class)})
 public class HelloWorldController {
 
     @Autowired

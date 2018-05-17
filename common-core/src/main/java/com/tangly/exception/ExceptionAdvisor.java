@@ -37,10 +37,10 @@ public class ExceptionAdvisor {
 
     /**
      * 捕捉shiro无权访问的异常
-     *
+     * http状态码 403 Forbidden
      * @return
      */
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(UnauthorizedException.class)
     public ErrorResponse handle403(UnauthorizedException e) {
         return new ErrorResponse(10003, "无权访问", e);
@@ -66,13 +66,13 @@ public class ExceptionAdvisor {
     }
 
     /**
-     * 捕获所有业务逻辑代码抛出的异常
-     *
+     * 捕获所有业务逻辑异常
+     * http 状态码 206
      * @param e
      * @return
      */
     @ExceptionHandler(NormalException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.PARTIAL_CONTENT)
     public ErrorResponse normalException(NormalException e) {
         log.error("业务异常: {}",e.getMessage());
         return new ErrorResponse(e.getErrorCode(), e.getMessage(), e);
