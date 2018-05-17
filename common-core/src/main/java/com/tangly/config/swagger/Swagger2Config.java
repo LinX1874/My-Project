@@ -63,6 +63,7 @@ public class Swagger2Config {
         pars.add(tokenPar.build());
 
         List<ResponseMessage> responseMessageList = new ArrayList<>();
+        responseMessageList.add(new ResponseMessageBuilder().code(401).message("未登录或无权访问").responseModel(new ModelRef("ResponseBean")).build());
         responseMessageList.add(new ResponseMessageBuilder().code(404).message("找不到资源").responseModel(new ModelRef("ResponseBean")).build());
         responseMessageList.add(new ResponseMessageBuilder().code(409).message("业务逻辑错误").responseModel(new ModelRef("ResponseBean")).build());
         responseMessageList.add(new ResponseMessageBuilder().code(422).message("参数校验错误").responseModel(new ModelRef("ResponseBean")).build());

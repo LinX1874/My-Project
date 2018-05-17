@@ -37,7 +37,12 @@ public class WebSocketServiceImpl implements IWebSocketService {
         Set<Map.Entry<String, WebSocket>> entrySet = webSocketMap.entrySet();
         int successCount = 0;
         for (Map.Entry<String, WebSocket> entry : entrySet) {
-            successCount += entry.getValue().sendMessageToThis(messageBean);
+            // 不发给自己
+            WebSocket toWebSocket = entry.getValue();
+            String from = messageBean.getFrom();
+            if(!from.equals(toWebSocket.getUsername())){
+                successCount += entry.getValue().sendMessageToThis(messageBean);
+            }
         }
         return successCount;
     }

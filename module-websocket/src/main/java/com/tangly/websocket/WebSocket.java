@@ -49,7 +49,10 @@ public class WebSocket {
         this.token = token;
         this.username = JWTUtil.getUsername(token);
         if (StringUtils.isEmpty(username)) {
-            this.username = "匿名用户" + System.currentTimeMillis();
+            String timeStamp = String.valueOf(System.currentTimeMillis());
+            //取时间戳后七位生成匿名用户名
+            timeStamp = timeStamp.substring(timeStamp.length() -6,timeStamp.length());
+            this.username = ("匿名用户" + timeStamp);
         }
         iWebSocketService.addWebSocket(this);
 
