@@ -9,6 +9,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authz.UnauthenticatedException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -40,10 +41,10 @@ public class JWTUtil {
             DecodedJWT jwt = verifier.verify(token);
         } catch (TokenExpiredException e){
             log.info("token过期 {}" , token );
-            throw new AuthenticationException("token已过期");
+            throw new UnauthenticatedException("token已过期");
         } catch (JWTVerificationException e) {
             log.error("token非法" , token);
-            throw new AuthenticationException("token已失效");
+            throw new UnauthenticatedException("token已失效");
         }
         return true;
     }

@@ -47,7 +47,11 @@ public class ExceptionAdvisor {
     }
 
 
-
+    /**
+     * 捕获传入参数格式错误
+     * @param e
+     * @return
+     */
     @ExceptionHandler({JSONException.class,HttpMessageNotReadableException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ErrorResponse jsonException(Exception e) {
