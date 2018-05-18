@@ -1,8 +1,9 @@
 package com.tangly.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.tangly.bean.ErrorResponse;
-import com.tangly.bean.PageRequest;
 import com.tangly.bean.PageResponse;
+import com.tangly.bean.SearchParam;
 import com.tangly.entity.HelloWorld;
 import com.tangly.entity.UserAuth;
 import com.tangly.entity.UserInfo;
@@ -21,8 +22,6 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * date: 2018/1/2 17:29 <br/>
@@ -43,17 +42,20 @@ public class HelloWorldController {
 
     //START----------------------------增删改查CRUD+PAGE-----------------------------------
 
-    @ApiOperation(value = "获取HelloWorld列表", notes = "获取列表")
+    @ApiOperation(value = "获取HelloWorld列表", notes = "获取列表,在url中使用?page=xx&size=xx实现分页，过滤和排序参数在body中发送")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", paramType = "query", value = "页码(不传默认是1)", dataType = "int", defaultValue = "1"),
+            @ApiImplicitParam(name = "size", paramType = "query", value = "页面大小(不传默认是10)", dataType = "int", defaultValue = "10"),
+            @ApiImplicitParam(name = "searchParam", paramType = "body", value = "过滤/排序条件", dataType = "SearchParam", dataTypeClass = SearchParam.class)
+    })
     @GetMapping(value = {""})
-    public List<HelloWorld> getAllList() {
-        List<HelloWorld> r = iHelloWorldService.selectAll();
-        return r;
-    }
-
-    @ApiOperation(value = "分页获取获取HelloWorld列表", notes = "备注内容：记得传参数")
-    @PostMapping(value = {"/page"})
-    public PageResponse<HelloWorld> geHelloWorldPage(@RequestBody PageRequest pageRequest) {
-        PageResponse<HelloWorld> pageInfo = iHelloWorldService.selectByPage(pageRequest, HelloWorld.class);
+    public PageResponse<HelloWorld> getList(
+            @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
+            @RequestBody(required = false) SearchParam searchParam
+    ) {
+        PageHelper.startPage(page, size);
+        PageResponse<HelloWorld> pageInfo = iHelloWorldService.selectByPage(searchParam, HelloWorld.class);
         return pageInfo;
     }
 

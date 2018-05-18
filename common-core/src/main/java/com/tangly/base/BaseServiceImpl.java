@@ -1,11 +1,11 @@
 package com.tangly.base;
 
-import com.github.pagehelper.PageHelper;
-import com.tangly.bean.PageRequest;
 import com.tangly.bean.PageResponse;
+import com.tangly.bean.SearchParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Iterator;
@@ -15,6 +15,7 @@ import java.util.Map;
 /**
  * 通用ServiceImple
  * Service实现类都继承该方法，以获得常用的怎删改查默认实现
+ *
  * @param <T>
  * @author tangly
  */
@@ -52,6 +53,7 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
 
     /**
      * 批量插入实体列表，性能高于for循环单独insert数据
+     *
      * @param t 实体列表
      * @return
      */
@@ -152,54 +154,57 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
         if (!ParameterizedType.class.isAssignableFrom(superclassType.getClass())) {
             return null;
         }
-        return ((ParameterizedType)superclassType).getActualTypeArguments();
+        return ((ParameterizedType) superclassType).getActualTypeArguments();
     }
 
     /**
      * 根据实体中的属性值进行查询，查询条件使用等号
      *
-     * @param pageRequest
+     * @param searchParam
      * @return
      */
     @Override
-    public PageResponse<T> selectByPage(PageRequest pageRequest , Class clazz) {
-
-        int pageNum = pageRequest.getPageNum();
-        int pageSize = pageRequest.getPageSize();
-        Map<String, Object> orderBys = pageRequest.getOrderBys();
-        Map<String, Object> searchParams = pageRequest.getSearchParams();
+    public PageResponse<T> selectByPage(SearchParam searchParam, Class clazz) {
 
         Example example = new Example(clazz);
+        List<T> list;
 
-        if (!ObjectUtils.isEmpty(orderBys)) {
-            Iterator<Map.Entry<String, Object>> sortIterator = orderBys.entrySet().iterator();
-            Map.Entry<String, Object> sortEntry;
-            while (sortIterator.hasNext()) {
-                sortEntry = sortIterator.next();
-                sortEntry.getKey();
-                sortEntry.getValue();
-                if("asc".equals(sortEntry.getValue())){
-                    example.orderBy(sortEntry.getKey()).asc();
-                }else if ("desc".equals(sortEntry.getValue())){
-                    example.orderBy(sortEntry.getKey()).desc();
+        //排序过滤条件
+        if (!ObjectUtils.isEmpty(searchParam)) {
+            if (!ObjectUtils.isEmpty(searchParam)) {
+                Map<String, Object> orderBys = searchParam.getOrderBys();
+                Map<String, Object> searchParams = searchParam.getColumParams();
+
+                if (!ObjectUtils.isEmpty(orderBys)) {
+                    Iterator<Map.Entry<String, Object>> sortIterator = orderBys.entrySet().iterator();
+                    Map.Entry<String, Object> sortEntry;
+                    while (sortIterator.hasNext()) {
+                        sortEntry = sortIterator.next();
+                        sortEntry.getKey();
+                        sortEntry.getValue();
+                        if ("asc".equals(sortEntry.getValue())) {
+                            example.orderBy(sortEntry.getKey()).asc();
+                        } else if ("desc".equals(sortEntry.getValue())) {
+                            example.orderBy(sortEntry.getKey()).desc();
+                        }
+                    }
+                }
+
+                if (!ObjectUtils.isEmpty(searchParams)) {
+                    Iterator<Map.Entry<String, Object>> searchIterator = searchParams.entrySet().iterator();
+                    Map.Entry<String, Object> searchEntity;
+                    while (searchIterator.hasNext()) {
+                        searchEntity = searchIterator.next();
+                        example
+                                .or()
+                                .andLike(searchEntity.getKey(), String.valueOf(searchEntity.getValue()));
+                    }
                 }
             }
         }
 
-        if (!ObjectUtils.isEmpty(searchParams)) {
-            Iterator<Map.Entry<String, Object>> searchIterator = searchParams.entrySet().iterator();
-            Map.Entry<String, Object> searchEntity;
-            while (searchIterator.hasNext()) {
-                searchEntity = searchIterator.next();
-                example
-                        .or()
-                        .andLike(searchEntity.getKey(), String.valueOf(searchEntity.getValue()));
-            }
-        }
 
-        PageHelper.startPage(pageNum, pageSize);
-
-        List<T> list = mapper.selectByExample(example);
+        list = mapper.selectByExample(example);
 
         return new PageResponse<>(list);
     }
