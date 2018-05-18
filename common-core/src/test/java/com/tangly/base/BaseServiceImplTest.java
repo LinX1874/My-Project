@@ -75,10 +75,10 @@ public class BaseServiceImplTest {
 //
 //        pr.setOrderBys(sortMap);
 //
-//        Map<String,Object> columParams = new HashMap();
-//        columParams.put("id","1");
-//        columParams.put("name","test");
-//        pr.setColumParams(columParams);
+//        Map<String,Object> columnParams = new HashMap();
+//        columnParams.put("id","1");
+//        columnParams.put("name","test");
+//        pr.setColumnParams(columnParams);
 //
 //        service.selectByPage(pr);
 

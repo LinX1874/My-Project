@@ -7,6 +7,7 @@ import com.tangly.bean.SearchParam;
 import com.tangly.entity.HelloWorld;
 import com.tangly.entity.UserAuth;
 import com.tangly.entity.UserInfo;
+import com.tangly.enums.ESort;
 import com.tangly.exception.NormalException;
 import com.tangly.service.IHelloWorldService;
 import com.tangly.util.ValidateUtil;
@@ -42,22 +43,34 @@ public class HelloWorldController {
 
     //START----------------------------增删改查CRUD+PAGE-----------------------------------
 
-    @ApiOperation(value = "获取HelloWorld列表", notes = "获取列表,在url中使用?page=xx&size=xx实现分页，过滤和排序参数在body中发送")
+    @ApiOperation(value = "获取HelloWorld列表", notes = "获取列表,在url中使用?page=xx&size=xx实现分页,不传默认是1,10")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", paramType = "query", value = "页码(不传默认是1)", dataType = "int", defaultValue = "1"),
             @ApiImplicitParam(name = "size", paramType = "query", value = "页面大小(不传默认是10)", dataType = "int", defaultValue = "10"),
-            @ApiImplicitParam(name = "searchParam", paramType = "body", value = "过滤/排序条件", dataType = "SearchParam", dataTypeClass = SearchParam.class)
+            @ApiImplicitParam(name = "sort", paramType = "query", value = "排序字段，sort=asc表示正序，sort=desc表示倒序(不传默认是正序)")
     })
-    @GetMapping(value = {""})
+    @GetMapping(value = "")
     public PageResponse<HelloWorld> getList(
             @RequestParam(name = "page", defaultValue = "1", required = false) Integer page,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size,
-            @RequestBody(required = false) SearchParam searchParam
+            @RequestParam(name = "sort", required = false) ESort sort
+
     ) {
         PageHelper.startPage(page, size);
+        SearchParam searchParam = new SearchParam();
+        searchParam.addOrderBy("id", sort);
         PageResponse<HelloWorld> pageInfo = iHelloWorldService.selectByPage(searchParam, HelloWorld.class);
         return pageInfo;
     }
+
+    @ApiOperation(value = "搜索HelloWorld列表", notes = "包含详细的分页排序参数")
+    @PostMapping(value = "search")
+    public PageResponse<HelloWorld> getList(@RequestBody SearchParam searchParam) {
+        PageHelper.startPage(searchParam.getPage(), searchParam.getSize());
+        PageResponse<HelloWorld> pageInfo = iHelloWorldService.selectByPage(searchParam, HelloWorld.class);
+        return pageInfo;
+    }
+
 
     @ApiOperation(value = "创建HelloWorld实体", notes = "根据HelloWorld对象创建HelloWorld")
     @ApiImplicitParam(name = "helloWorld", value = "id字段由服务端生成，前端不用传", required = true, dataType = "HelloWorld")

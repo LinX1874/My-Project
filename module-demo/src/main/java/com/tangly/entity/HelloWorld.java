@@ -56,13 +56,13 @@ public class HelloWorld {
     /**
      * 邮件
      */
-    @ApiModelProperty(value = "邮件")
+    @ApiModelProperty(value = "邮件",example = "xx@xx.com")
     private String email;
 
     /**
      * 地址
      */
-    @ApiModelProperty(value = "邮件")
+    @ApiModelProperty(value = "地址",example = "XX地址")
     private String address;
 
     /**
@@ -74,7 +74,7 @@ public class HelloWorld {
     @ApiModelProperty(value = "名称")
     private String name;
 
-    @ApiModelProperty(value = "手机号")
+    @ApiModelProperty(value = "手机号",example = "13800138000")
     @Pattern(regexp="\\d{11}" , message = "手机号格式不正确")
     private String phone;
 

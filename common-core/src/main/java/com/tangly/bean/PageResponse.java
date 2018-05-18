@@ -48,10 +48,6 @@ public class PageResponse<T> implements Serializable {
     }
 
     public PageResponse(List<T> list) {
-        this(list, 10);
-    }
-
-    public PageResponse(List<T> list, int navigatePages) {
         this.firstPage = false;
         this.lastPage = false;
         if (list instanceof Page) {
@@ -69,6 +65,12 @@ public class PageResponse<T> implements Serializable {
             this.list = list;
             this.size = list.size();
             this.total = (long) list.size();
+        }
+        if(pageNum == 1){
+            firstPage = true;
+        }
+        if(pageNum == pages){
+            lastPage = true;
         }
     }
 

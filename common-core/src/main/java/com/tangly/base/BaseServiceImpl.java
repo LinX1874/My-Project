@@ -2,6 +2,7 @@ package com.tangly.base;
 
 import com.tangly.bean.PageResponse;
 import com.tangly.bean.SearchParam;
+import com.tangly.enums.ESort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import tk.mybatis.mapper.entity.Example;
@@ -172,19 +173,19 @@ public abstract class BaseServiceImpl<T> implements IBaseService<T> {
         //排序过滤条件
         if (!ObjectUtils.isEmpty(searchParam)) {
             if (!ObjectUtils.isEmpty(searchParam)) {
-                Map<String, Object> orderBys = searchParam.getOrderBys();
-                Map<String, Object> searchParams = searchParam.getColumParams();
+                Map<String, ESort> orderBys = searchParam.getOrderBys();
+                Map<String, Object> searchParams = searchParam.getColumnParams();
 
                 if (!ObjectUtils.isEmpty(orderBys)) {
-                    Iterator<Map.Entry<String, Object>> sortIterator = orderBys.entrySet().iterator();
-                    Map.Entry<String, Object> sortEntry;
+                    Iterator<Map.Entry<String, ESort>> sortIterator = orderBys.entrySet().iterator();
+                    Map.Entry<String, ESort> sortEntry;
                     while (sortIterator.hasNext()) {
                         sortEntry = sortIterator.next();
                         sortEntry.getKey();
                         sortEntry.getValue();
-                        if ("asc".equals(sortEntry.getValue())) {
+                        if (ESort.asc.equals(sortEntry.getValue())) {
                             example.orderBy(sortEntry.getKey()).asc();
-                        } else if ("desc".equals(sortEntry.getValue())) {
+                        } else if (ESort.desc.equals(sortEntry.getValue())) {
                             example.orderBy(sortEntry.getKey()).desc();
                         }
                     }
