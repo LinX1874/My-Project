@@ -1,5 +1,7 @@
 package com.tangly.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +17,7 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel(description = "用户角色")
 public class SysRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,63 +25,13 @@ public class SysRole {
 
     private Boolean available;
 
+    @ApiModelProperty(value = "角色描述")
     private String description;
 
-    private String role;
+    @ApiModelProperty(value = "角色名")
+    private String name;
 
-    /**
-     * @return id
-     */
-    public Long getId() {
-        return id;
-    }
+    @ApiModelProperty(value = "角色等级，0是最高级")
+    private Integer level;
 
-    /**
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return available
-     */
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    /**
-     * @param available
-     */
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
-
-    /**
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * @param description
-     */
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
-
-    /**
-     * @return role
-     */
-    public String getRole() {
-        return role;
-    }
-
-    /**
-     * @param role
-     */
-    public void setRole(String role) {
-        this.role = role == null ? null : role.trim();
-    }
 }

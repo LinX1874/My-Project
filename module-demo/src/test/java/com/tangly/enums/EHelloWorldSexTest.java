@@ -17,7 +17,9 @@ public class EHelloWorldSexTest {
         EHelloWorldSex sex = EHelloWorldSex.MALE;
         System.out.println(sex.name());
         System.out.println(JSON.toJSONString(sex));
-        System.out.println(JSON.toJSONString(EHelloWorldSex.MALE,SerializerFeature.WriteEnumUsingToString));;
+        System.out.println(JSON.toJSONString(EHelloWorldSex.MALE,SerializerFeature.WriteEnumUsingToString));
+        EHelloWorldSex sexFromJson = JSON.parseObject("{EHelloWorldSex:FEMALE}",EHelloWorldSex.class);
+        System.out.println(sexFromJson);
     }
 
 }

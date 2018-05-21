@@ -1,5 +1,6 @@
 package com.tangly.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.tangly.enums.EUserSex;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author tanglye
@@ -24,6 +26,7 @@ public class UserInfo {
      */
     @Column(name = "user_nickname")
     @ApiModelProperty(notes = "昵称" , example = "张三")
+    @NotNull
     private String userNickname;
 
     /**
@@ -38,6 +41,12 @@ public class UserInfo {
      */
     @Column(name = "user_sex")
     @ApiModelProperty(notes = "性别")
+    @NotNull
     private EUserSex userSex;
+
+    @JSONField(name ="user_sex")
+    public void setUserSex(String label){
+        this.userSex = EUserSex.enumOf(label);
+    }
 
 }

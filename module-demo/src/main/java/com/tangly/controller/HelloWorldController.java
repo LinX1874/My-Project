@@ -105,7 +105,7 @@ public class HelloWorldController {
 
     @ApiOperation(value = "获取HelloWorld详细信息", notes = "根据url的id来获取HelloWorld详细信息")
     @ApiImplicitParam(paramType = "path", name = "id", dataType = "Integer")
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/{idpo}")
     public HelloWorld getHelloWorld(@PathVariable("id") Integer id) {
         HelloWorld helloWorld = iHelloWorldService.selectByPrimaryKey(id);
         return helloWorld;

@@ -37,4 +37,19 @@ public interface IUserAuthService extends IBaseService<UserAuth> {
      * @param userAuth
      */
     void save(UserAuth userAuth);
+
+    /**
+     * 记录最后一次登录失败
+     * @param userAuth
+     * @param requestIP
+     */
+    void updateLoginInfoFail(UserAuth userAuth, String requestIP);
+
+    /**
+     * 更新最新一次登录成功
+     * @param userAuth
+     * @param requestIP
+     * @param token
+     */
+    void updateLoginInfoSuccess(UserAuth userAuth, String requestIP, String token);
 }

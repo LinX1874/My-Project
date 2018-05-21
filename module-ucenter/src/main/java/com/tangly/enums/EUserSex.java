@@ -20,6 +20,15 @@ public enum EUserSex implements BaseEnum {
         this.value = value;
     }
 
+    public static EUserSex enumOf(String label) {
+        for (EUserSex s : EUserSex.values()) {
+            if (label .equals(s.label)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return label;

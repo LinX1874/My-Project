@@ -1,9 +1,13 @@
 package com.tangly.response;
 
+import com.tangly.entity.SysPermission;
+import com.tangly.entity.SysRole;
 import com.tangly.entity.UserInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * date: 2018/5/16 16:57 <br/>
@@ -28,10 +32,17 @@ public class SignInResponse {
     @ApiModelProperty(value = "用户信息")
     UserInfo userInfo;
 
-    public SignInResponse(String token, String lastLoginTime, String lastLoginPlace, UserInfo userInfo) {
+    @ApiModelProperty(value = "系统角色")
+    List<SysRole> roles;
+
+    @ApiModelProperty(value = "系统权限")
+    List<SysPermission> sysPermissions;
+
+    public SignInResponse(String token, String lastLoginTime, String lastLoginPlace, UserInfo userInfo, List<SysRole> roles) {
         this.token = token;
         this.lastLoginTime = lastLoginTime;
         this.lastLoginPlace = lastLoginPlace;
         this.userInfo = userInfo;
+        this.roles = roles;
     }
 }

@@ -1,5 +1,6 @@
 package com.tangly.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.tangly.enums.EHelloWorldSex;
 import com.tangly.enums.EType;
 import io.swagger.annotations.ApiModel;
@@ -44,7 +45,13 @@ public class HelloWorld {
      * 性别 枚举
      */
     @ApiModelProperty(value = "性别")
+    @NotNull(message = "性别不能为空")
     private EHelloWorldSex sex;
+
+    @JSONField(name = "sex")
+    public void setSex(String label){
+        this.sex = EHelloWorldSex.enumOf(label);
+    }
 
     /**
      * 枚举类示例
@@ -52,6 +59,15 @@ public class HelloWorld {
      */
     @Column(name = "type")
     private EType type;
+
+    /**
+     * 前端传过来的HelloWorld实体的type字段会由该方法构造
+     * @param label
+     */
+    @JSONField(name = "type")
+    public void setType(String label){
+        this.type = EType.enumOf(label);
+    }
 
     /**
      * 邮件

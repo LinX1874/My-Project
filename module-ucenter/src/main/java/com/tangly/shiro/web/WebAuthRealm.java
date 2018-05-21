@@ -50,7 +50,7 @@ package com.tangly.shiro.web;//package com.tangly.config.shiro.web;
 //        List<String> permissions = new ArrayList<>();
 //        if(!ObjectUtils.isEmpty(userAuth.getSysRoleList())){
 //            for(SysRole role : userAuth.getSysRoleList()){
-//                authorizationInfo.addRole(role.getRole());
+//                authorizationInfo.addRole(role.getName());
 //               if(!ObjectUtils.isEmpty( role.getSysPermissionList())){
 //                   for(SysPermission pms : role.getSysPermissionList()){
 //                       if(!ObjectUtils.isEmpty(pms)){

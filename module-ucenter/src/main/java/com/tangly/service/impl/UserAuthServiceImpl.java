@@ -70,4 +70,20 @@ public class UserAuthServiceImpl extends BaseServiceImpl<UserAuth> implements IU
     public void save(UserAuth userAuth) {
         mapper.insert(userAuth);
     }
+
+    @Override
+    public void updateLoginInfoFail(UserAuth userAuth, String requestIP) {
+        userAuth.setLastLoginTryIp(requestIP);
+        userAuth.setLastLoginTryCount(userAuth.getLastLoginTryCount() + 1);
+        updateByPrimaryKeySelective(userAuth);
+    }
+
+    @Override
+    public void updateLoginInfoSuccess(UserAuth userAuth, String requestIP, String token) {
+        userAuth.setLastLoginTime(new Date());
+        userAuth.setLastLoginToken(token);
+        userAuth.setLastLoginIp(requestIP);
+        userAuth.setLastLoginTryCount(0);
+        updateByPrimaryKeySelective(userAuth);
+    }
 }

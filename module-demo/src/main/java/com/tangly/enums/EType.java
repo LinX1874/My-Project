@@ -22,6 +22,15 @@ public enum EType implements BaseEnum {
         this.value = value;
     }
 
+    public static EType enumOf(String label) {
+        for (EType s : EType.values()) {
+            if (label .equals(s.label)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     /**
      * 重写toString,fastjson转化枚举对象时使用toString方式输出json
      * @see com.tangly.config.mvc.WebConfig 第97行附近

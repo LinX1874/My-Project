@@ -1,14 +1,18 @@
 package com.tangly.controller;
 
 import com.tangly.bean.ErrorResponse;
+import com.tangly.entity.SysRole;
 import com.tangly.entity.UserAuth;
+import com.tangly.entity.UserInfo;
 import com.tangly.exception.NormalException;
 import com.tangly.response.SignInResponse;
+import com.tangly.service.ISysRoleService;
 import com.tangly.service.IUserAuthService;
 import com.tangly.shiro.jwt.JWTUtil;
 import com.tangly.util.GetPlaceUtil;
 import com.tangly.util.PasswordHelper;
 import com.tangly.util.TimeUtil;
+import com.tangly.util.ValidateUtil;
 import com.tangly.util.gif.Captcha;
 import com.tangly.util.gif.GifCaptcha;
 import io.swagger.annotations.*;
@@ -25,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author tangly
@@ -37,6 +42,9 @@ public class SignController {
 
     @Autowired
     private IUserAuthService iUserAuthService;
+
+    @Autowired
+    private ISysRoleService iSysRoleService;
 
     @Autowired
     private PasswordHelper passwordHelper;
@@ -57,30 +65,35 @@ public class SignController {
             @RequestParam("password") String password, HttpServletRequest request
     ) throws NormalException {
 
+        //TODO 为了防止用户暴力破解这里需要把反复尝试的ip拉入黑名单
+        String requestIP = request.getRemoteAddr();
         UserAuth userAuth = iUserAuthService.getUserAuth(username);
         log.info("用户 {} 尝试登录", username);
         if (ObjectUtils.isEmpty(userAuth)) {
-            //TODO 为了防止用户暴力破解这里需要把反复尝试的ip拉入黑名单
-            String requestIP = request.getRemoteAddr();
+
             throw new NormalException("用户名或密码错误");
+
         } else if (!passwordHelper.verifyPassword(password, userAuth)) {
-            userAuth.setLastLoginTryCount(userAuth.getLastLoginTryCount() + 1);
-            iUserAuthService.updateByPrimaryKeySelective(userAuth);
+
+            iUserAuthService.updateLoginInfoFail(userAuth, requestIP);
             throw new NormalException("用户名或密码错误");
+
         } else {
+
+            //签发Token，更新登录信息
             Date expireDate = new Date(System.currentTimeMillis() + EXPIRE_TIME_ONE_DAY);
             String token = JWTUtil.sign(username, passwordHelper.encryptPassword(password, userAuth), expireDate);
-            userAuth.setLastLoginTime(new Date());
-            userAuth.setLastLoginToken(token);
-            userAuth.setLastLoginIp(request.getRemoteAddr());
-            userAuth.setLastLoginTryCount(0);
-            iUserAuthService.updateByPrimaryKeySelective(userAuth);
+            iUserAuthService.updateLoginInfoSuccess(userAuth, requestIP, token);
+
             String lastLoginTime = TimeUtil.formatTime(userAuth.getLastLoginTime(), "yyyy年MM月dd日 HH:mm:ss");
             String loginPlace = userAuth.getLastLoginIp();
             if (StringUtils.isNotEmpty(loginPlace)) {
-               loginPlace = GetPlaceUtil.getPlace(loginPlace) + "(" + loginPlace + ")";
+                loginPlace = GetPlaceUtil.getPlace(loginPlace) + "(" + loginPlace + ")";
             }
-            return new SignInResponse(token, lastLoginTime, loginPlace, userAuth.getUserInfo());
+            UserInfo userInfo = userAuth.getUserInfo();
+            List<SysRole> sysRoles = iSysRoleService.getSysRole(userInfo.getId());
+
+            return new SignInResponse(token, lastLoginTime, loginPlace, userInfo, sysRoles);
         }
     }
 
@@ -92,7 +105,7 @@ public class SignController {
     public String signUp(@RequestBody UserAuth userAuth) throws NormalException {
 
         log.info("用户 {} 尝试注册", userAuth.getLoginAccount());
-
+        ValidateUtil.validate(userAuth);
         if (iUserAuthService.existUserName(userAuth.getLoginAccount())) {
             throw new NormalException("用户名已存在");
         }
@@ -149,11 +162,12 @@ public class SignController {
 
     /**
      * 获取验证码（Gif版本）
+     *
      * @param response
      */
     @ApiOperation(value = "获取图片验证码,这个接口会直接返回图片，文档测试工具中无法模拟")
-    @RequestMapping(value="getGifCode",method=RequestMethod.GET)
-    public void getGifCode(HttpServletResponse response, HttpServletRequest request){
+    @RequestMapping(value = "getGifCode", method = RequestMethod.GET)
+    public void getGifCode(HttpServletResponse response, HttpServletRequest request) {
         try {
             response.setHeader("Pragma", "No-cache");
             response.setHeader("Cache-Control", "no-cache");
@@ -163,14 +177,14 @@ public class SignController {
              * gif格式动画验证码
              * 宽，高，位数。
              */
-            Captcha captcha = new GifCaptcha(146,33,4);
+            Captcha captcha = new GifCaptcha(146, 33, 4);
             //输出
             captcha.out(response.getOutputStream());
             HttpSession session = request.getSession(true);
             //存入Session
-            session.setAttribute("_code",captcha.text().toLowerCase());
+            session.setAttribute("_code", captcha.text().toLowerCase());
         } catch (Exception e) {
-            log.error("获取验证码异常：{}",e.getMessage());
+            log.error("获取验证码异常：{}", e.getMessage());
         }
     }
 }

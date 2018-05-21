@@ -98,7 +98,14 @@ public class UserAuth {
     private String lastLoginDevice;
 
     /**
-     * 最后一次登录尝试
+     * 最后一次登录尝试IP
+     */
+    @Column(name = "last_login_try_ip")
+    @ApiModelProperty(hidden = true)
+    private String lastLoginTryIp;
+
+    /**
+     * 最后一次登录尝试次数
      */
     @Column(name = "last_login_try_count")
     @ApiModelProperty(hidden = true)

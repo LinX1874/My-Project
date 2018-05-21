@@ -21,6 +21,22 @@ public enum EHelloWorldSex implements BaseEnum {
         this.value = value;
     }
 
+    /**
+     * 前台传枚举类时直接传label字符串
+     * 后台通过@JSONField(name="sex") public void setSex(){} 方法将label转为枚举对象
+     * @param label
+     * @return
+     */
+    public static EHelloWorldSex enumOf(String label) {
+        for (EHelloWorldSex s : EHelloWorldSex.values()) {
+            if (label .equals(s.label)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+
     @Override
     public String toString() {
         return label;

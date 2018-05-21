@@ -60,7 +60,7 @@ public class JWTRealm extends AuthorizingRealm {
         List<SysRole> sysRoles = iSysRoleService.getSysRole(userInfo.getId());
 
         for(SysRole role : sysRoles){
-            simpleAuthorizationInfo.addRole(role.getRole());
+            simpleAuthorizationInfo.addRole(role.getName());
         }
 
         for(SysPermission pms : sysPermissions){
