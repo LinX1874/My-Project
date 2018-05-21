@@ -55,6 +55,10 @@ public class UserAuth {
     @ApiModelProperty( notes = "登录类型枚举，表示登录的途径方式")
     private ELoginType loginType;
 
+    public void setLoginType(String label){
+        this.loginType = ELoginType.enumOf(label);
+    }
+
     /**
      * 登录账号
      */

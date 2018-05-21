@@ -49,6 +49,9 @@ public class Swagger2Config {
     @Value("${server.servlet-path}")
     private String pathMapping;
 
+    @Value(value = "${spring.profiles.active}")
+    private String active;
+
     public static final String SWAGGER_SCAN_BASE_PACKAGE = "com.tangly.controller";
     public static final String VERSION = "1.0.0";
 
@@ -70,11 +73,17 @@ public class Swagger2Config {
         responseMessageList.add(new ResponseMessageBuilder().code(422).message("参数校验错误").responseModel(new ModelRef("ResponseBean")).build());
         responseMessageList.add(new ResponseMessageBuilder().code(500).message("服务器内部错误").responseModel(new ModelRef("ResponseBean")).build());
 
+        boolean enable = false;
+        if("dev".equals(active)){
+            enable = true;
+        }
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(SWAGGER_SCAN_BASE_PACKAGE))
                 .paths(PathSelectors.any())
                 .build()
+                .enable(enable)
                 .globalOperationParameters(pars)
                 .globalResponseMessage(RequestMethod.GET, responseMessageList)
                 .globalResponseMessage(RequestMethod.POST, responseMessageList)

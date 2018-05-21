@@ -4,6 +4,7 @@ import com.tangly.bean.ErrorResponse;
 import com.tangly.entity.SysRole;
 import com.tangly.entity.UserAuth;
 import com.tangly.entity.UserInfo;
+import com.tangly.enums.ELoginType;
 import com.tangly.exception.NormalException;
 import com.tangly.response.SignInResponse;
 import com.tangly.service.ISysRoleService;
@@ -57,13 +58,18 @@ public class SignController {
     @ApiOperation(value = "用户登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", paramType = "query", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", paramType = "query", required = true)
+            @ApiImplicitParam(name = "password", value = "密码", paramType = "query", required = true),
+            @ApiImplicitParam(name = "loginType", value = "登录类型", paramType = "query", required = true,  dataTypeClass = ELoginType.class)
     })
     @PostMapping("/signIn")
     public SignInResponse signIn(
             @RequestParam("username") String username,
-            @RequestParam("password") String password, HttpServletRequest request
+            @RequestParam("password") String password,
+            @RequestParam("loginType") ELoginType loginType,
+            HttpServletRequest request
     ) throws NormalException {
+
+        System.out.println(loginType);
 
         //TODO 为了防止用户暴力破解这里需要把反复尝试的ip拉入黑名单
         String requestIP = request.getRemoteAddr();

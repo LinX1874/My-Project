@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +29,10 @@ import java.io.IOException;
  */
 @Controller
 @Slf4j
-@Api(description = "文件控制器",tags = "后台管理模块")
-@RequestMapping(value = "/file")
+@Api(description = "文件管理",tags = "后台管理模块")
+@RequestMapping(value = "/admin/file")
 @ApiResponses({@ApiResponse(code = 206, message = "业务逻辑无法执行", response = ErrorResponse.class)})
+@RequiresRoles(logical = Logical.OR, value = "ADMIN,SUPERVISOR")
 public class FileController {
 
     private String attachPath = "attach";

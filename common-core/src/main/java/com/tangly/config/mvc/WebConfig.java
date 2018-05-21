@@ -39,10 +39,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/api/v2/api-docs", "/v2/api-docs");
-        registry.addRedirectViewController("/api/swagger-resources/configuration/ui", "/swagger-resources/configuration/ui");
-        registry.addRedirectViewController("/api/swagger-resources/configuration/security", "/swagger-resources/configuration/security");
-        registry.addRedirectViewController("/api/swagger-resources", "/swagger-resources");
+        if ("dev".equals(active)) {
+            registry.addRedirectViewController("/api/v2/api-docs", "/v2/api-docs");
+            registry.addRedirectViewController("/api/swagger-resources/configuration/ui", "/swagger-resources/configuration/ui");
+            registry.addRedirectViewController("/api/swagger-resources/configuration/security", "/swagger-resources/configuration/security");
+            registry.addRedirectViewController("/api/swagger-resources", "/swagger-resources");
+
+        }
     }
 
     @Value("${attach_path}")
@@ -55,8 +58,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/attach/**")
                 .addResourceLocations(ResourceUtils.FILE_URL_PREFIX + attachPath);
 
-        registry.addResourceHandler("/swagger-ui.html**")
-                .addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
+        if ("dev".equals(active)) {
+            registry.addResourceHandler("/swagger-ui.html**")
+                    .addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
+        }
 
         registry.addResourceHandler("/docs.html**")
                 .addResourceLocations("classpath:/META-INF/resources/docs.html");
@@ -69,7 +74,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/dist/**")
                 .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/templates/dist/")
                 .setCacheControl(CacheControl.maxAge(1, TimeUnit.HOURS)
-                .cachePublic()).resourceChain(false)
+                        .cachePublic()).resourceChain(false)
                 .addResolver(new GzipResourceResolver())
                 .addResolver(new VersionResourceResolver()
                         .addContentVersionStrategy("/**"));
